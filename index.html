@@ -2,35 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Password Generator</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Password Generator</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <div class="container">
+  <div class="app">
     <div class="card">
-      <h1>Password Generator</h1>
-      <p class="subtitle">Memorable & Secure Passwords</p>
 
-      <div class="output-container">
-        <input type="text" id="passwordOutput" readonly />
-        <button id="copyBtn">Copy</button>
+      <div class="header">
+        <h1>Password Generator</h1>
+        <p>Memorable. Secure. Student-friendly.</p>
       </div>
 
-      <div class="controls">
-        <label for="patternSelect">Choose Pattern:</label>
-        <select id="patternSelect">
-          <option value="colour">Colour + Animal + Number + Symbol</option>
-          <option value="adjective">Adjective + Animal + Year + Symbol</option>
-        </select>
-
-        <button id="generateBtn">Generate Password</button>
+      <div class="password-box">
+        <input id="passwordOutput" readonly placeholder="Click generate..." />
+        <button id="copyBtn" title="Copy">📋</button>
       </div>
 
-      <p class="info">
-        These passwords are generated locally and never stored.
+      <p id="patternHint" class="pattern-hint"></p>
+
+      <button id="generateBtn" class="generate-btn">
+        Generate Password
+      </button>
+
+      <p class="footer-note">
+        Generated locally • Nothing is stored
       </p>
+
     </div>
   </div>
 
