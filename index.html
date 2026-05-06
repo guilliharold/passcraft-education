@@ -2,28 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Student Password Generator</title>
+  <title>Password Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
+  <div class="card">
     <h1>Password Generator</h1>
+    <p class="subtitle">Memorable & secure passwords for students</p>
 
-    <label for="pattern">Choose a pattern:</label>
-    <select id="pattern">
+    <label for="pattern">Pattern</label>
+    <select id="pattern" onchange="generate()">
       <option value="colour">Colour + Animal + Number + Symbol</option>
       <option value="adjective">Adjective + Animal + Year + Symbol</option>
     </select>
 
-    <button onclick="generate()">Generate Password</button>
+    <button class="primary" onclick="generate()">Generate Password</button>
 
     <div class="output">
-      <input type="text" id="password" readonly>
+      <input type="text" id="password" readonly placeholder="Your password will appear here">
       <button onclick="copyPassword()">Copy</button>
     </div>
 
-    <p id="feedback"></p>
+    <div class="strength">
+      <div id="strength-bar"></div>
+    </div>
+    <p id="strength-text"></p>
+
+    <p id="feedback" class="feedback"></p>
   </div>
 
   <script src="script.js"></script>
