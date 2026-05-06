@@ -1,52 +1,50 @@
-// Word lists
 const colours = ["Blue", "Red", "Green", "Purple", "Orange", "Yellow"];
 const adjectives = ["Brave", "Swift", "Clever", "Calm", "Bold", "Happy"];
 const animals = ["Tiger", "Otter", "Falcon", "Koala", "Panda", "Lion"];
 const symbols = ["!", "@", "#", "$", "%", "&"];
 
-// Secure random generator
-function getSecureRandom(max) {
-  const array = new Uint32Array(1);
-  crypto.getRandomValues(array);
-  return array[0] % max;
+// Secure random
+function rand(max) {
+  const arr = new Uint32Array(1);
+  crypto.getRandomValues(arr);
+  return arr[0] % max;
 }
 
-// Generate password
-function generatePassword(pattern) {
-  const number = Math.floor(10 + getSecureRandom(90)); // 2-digit
-  const year = new Date().getFullYear();
-  const symbol = symbols[getSecureRandom(symbols.length)];
-
-  if (pattern === "colour") {
-    return `${colours[getSecureRandom(colours.length)]}${animals[getSecureRandom(animals.length)]}${number}${symbol}`;
+// Patterns
+const patterns = [
+  {
+    name: "Colour + Animal + Number + Symbol",
+    generate: () =>
+      `${colours[rand(colours.length)]}${animals[rand(animals.length)]}${10 + rand(90)}${symbols[rand(symbols.length)]}`
+  },
+  {
+    name: "Adjective + Animal + Year + Symbol",
+    generate: () =>
+      `${adjectives[rand(adjectives.length)]}${animals[rand(animals.length)]}${new Date().getFullYear()}${symbols[rand(symbols.length)]}`
   }
+];
 
-  if (pattern === "adjective") {
-    return `${adjectives[getSecureRandom(adjectives.length)]}${animals[getSecureRandom(animals.length)]}${year}${symbol}`;
-  }
-}
-
-// DOM elements
+// DOM
 const output = document.getElementById("passwordOutput");
 const generateBtn = document.getElementById("generateBtn");
 const copyBtn = document.getElementById("copyBtn");
-const patternSelect = document.getElementById("patternSelect");
+const patternHint = document.getElementById("patternHint");
 
-// Generate button event
+// Generate
 generateBtn.addEventListener("click", () => {
-  const pattern = patternSelect.value;
-  const password = generatePassword(pattern);
+  const pattern = patterns[rand(patterns.length)];
+  const password = pattern.generate();
+
   output.value = password;
+  patternHint.textContent = pattern.name;
 });
 
-// Copy button event
+// Copy
 copyBtn.addEventListener("click", () => {
   if (!output.value) return;
 
-  navigator.clipboard.writeText(output.value).then(() => {
-    copyBtn.textContent = "Copied!";
-    setTimeout(() => {
-      copyBtn.textContent = "Copy";
-    }, 1500);
-  });
+  navigator.clipboard.writeText(output.value);
+
+  copyBtn.textContent = "✅";
+  setTimeout(() => (copyBtn.textContent = "📋"), 1200);
 });
