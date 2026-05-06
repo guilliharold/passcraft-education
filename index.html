@@ -1,1 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Password Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <div class="container">
+    <h1>Password Generator</h1>
+
+    <label for="pattern">Choose a pattern:</label>
+    <select id="pattern">
+      <option value="colour">Colour + Animal + Number + Symbol</option>
+      <option value="adjective">Adjective + Animal + Year + Symbol</option>
+    </select>
+
+    <button onclick="generate()">Generate Password</button>
+
+    <div class="output">
+      <input type="text" id="password" readonly>
+      <button onclick="copyPassword()">Copy</button>
+    </div>
+
+    <p id="feedback"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
