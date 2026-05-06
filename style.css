@@ -1,55 +1,106 @@
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --accent: #3b82f6;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: var(--text);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-.container {
-  background: white;
+.card {
+  background: var(--card);
   padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  text-align: center;
-  width: 320px;
+  border-radius: 16px;
+  width: 340px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--muted);
   margin-bottom: 20px;
 }
 
-select, button, input {
+label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+select, input, button {
   width: 100%;
+  margin-top: 8px;
   padding: 10px;
-  margin-top: 10px;
-  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+}
+
+select, input {
+  background: #1f2937;
+  color: white;
+}
+
+button {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button.primary {
+  background: var(--accent);
+  color: white;
+  font-weight: bold;
+}
+
+button.primary:hover {
+  opacity: 0.9;
 }
 
 .output {
   display: flex;
-  gap: 5px;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .output input {
   flex: 1;
 }
 
-button {
-  cursor: pointer;
-  background: #0078d4;
-  color: white;
-  border: none;
-  border-radius: 5px;
+.strength {
+  height: 8px;
+  background: #1f2937;
+  border-radius: 10px;
+  margin-top: 15px;
+  overflow: hidden;
 }
 
-button:hover {
-  background: #005fa3;
+#strength-bar {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s;
 }
 
-#feedback {
+#strength-text {
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.feedback {
   margin-top: 10px;
-  font-size: 14px;
-  color: green;
+  font-size: 13px;
+  color: #22c55e;
 }
