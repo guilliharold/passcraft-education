@@ -10,18 +10,14 @@
 
   <div class="card">
     <h1>Password Generator</h1>
-    <p class="subtitle">Memorable & secure passwords for students</p>
-
-    <label for="pattern">Pattern</label>
-    <select id="pattern" onchange="generate()">
-      <option value="colour">Colour + Animal + Number + Symbol</option>
-      <option value="adjective">Adjective + Animal + Year + Symbol</option>
-    </select>
+    <p class="subtitle">
+      Memorable passwords using colours, animals, numbers and symbols
+    </p>
 
     <button class="primary" onclick="generate()">Generate Password</button>
 
     <div class="output">
-      <input type="text" id="password" readonly placeholder="Your password will appear here">
+      <input type="text" id="password" readonly placeholder="Click generate...">
       <button onclick="copyPassword()">Copy</button>
     </div>
 
