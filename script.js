@@ -9,21 +9,19 @@ function getRandomItem(arr) {
   return arr[index];
 }
 
-// Generate password
+// Generate password (automatic pattern mix)
 function generate() {
-  const pattern = document.getElementById("pattern").value;
+  const useAdjective = crypto.getRandomValues(new Uint8Array(1))[0] % 2 === 0;
 
-  const number = crypto.getRandomValues(new Uint32Array(1))[0] % 900 + 100; // 3-digit
+  const number = crypto.getRandomValues(new Uint32Array(1))[0] % 900 + 100;
   const year = new Date().getFullYear();
 
-  let password = "";
+  let password;
 
-  if (pattern === "colour") {
-    password = `${getRandomItem(colours)}${getRandomItem(animals)}${number}${getRandomItem(symbols)}`;
-  }
-
-  if (pattern === "adjective") {
+  if (useAdjective) {
     password = `${getRandomItem(adjectives)}${getRandomItem(animals)}${year}${getRandomItem(symbols)}`;
+  } else {
+    password = `${getRandomItem(colours)}${getRandomItem(animals)}${number}${getRandomItem(symbols)}`;
   }
 
   document.getElementById("password").value = password;
@@ -56,10 +54,9 @@ function updateStrength(password) {
   text.textContent = `Strength: ${level.text}`;
 }
 
-// Copy function
+// Copy
 function copyPassword() {
   const field = document.getElementById("password");
-
   if (!field.value) return;
 
   navigator.clipboard.writeText(field.value);
@@ -68,6 +65,3 @@ function copyPassword() {
   feedback.textContent = "Copied!";
   setTimeout(() => feedback.textContent = "", 1500);
 }
-
-// Generate one on load
-generate();
