@@ -1,67 +1,52 @@
-const colours = ["Blue", "Red", "Green", "Purple", "Yellow", "Orange"];
-const adjectives = ["Brave", "Happy", "Clever", "Swift", "Bright", "Calm"];
-const animals = ["Tiger", "Otter", "Falcon", "Panda", "Lion", "Koala"];
+// Word lists
+const colours = ["Blue", "Red", "Green", "Purple", "Orange", "Yellow"];
+const adjectives = ["Brave", "Swift", "Clever", "Calm", "Bold", "Happy"];
+const animals = ["Tiger", "Otter", "Falcon", "Koala", "Panda", "Lion"];
 const symbols = ["!", "@", "#", "$", "%", "&"];
 
-// Secure random
-function getRandomItem(arr) {
-  const index = crypto.getRandomValues(new Uint32Array(1))[0] % arr.length;
-  return arr[index];
+// Secure random generator
+function getSecureRandom(max) {
+  const array = new Uint32Array(1);
+  crypto.getRandomValues(array);
+  return array[0] % max;
 }
 
-// Generate password (automatic pattern mix)
-function generate() {
-  const useAdjective = crypto.getRandomValues(new Uint8Array(1))[0] % 2 === 0;
-
-  const number = crypto.getRandomValues(new Uint32Array(1))[0] % 900 + 100;
+// Generate password
+function generatePassword(pattern) {
+  const number = Math.floor(10 + getSecureRandom(90)); // 2-digit
   const year = new Date().getFullYear();
+  const symbol = symbols[getSecureRandom(symbols.length)];
 
-  let password;
-
-  if (useAdjective) {
-    password = `${getRandomItem(adjectives)}${getRandomItem(animals)}${year}${getRandomItem(symbols)}`;
-  } else {
-    password = `${getRandomItem(colours)}${getRandomItem(animals)}${number}${getRandomItem(symbols)}`;
+  if (pattern === "colour") {
+    return `${colours[getSecureRandom(colours.length)]}${animals[getSecureRandom(animals.length)]}${number}${symbol}`;
   }
 
-  document.getElementById("password").value = password;
-  updateStrength(password);
+  if (pattern === "adjective") {
+    return `${adjectives[getSecureRandom(adjectives.length)]}${animals[getSecureRandom(animals.length)]}${year}${symbol}`;
+  }
 }
 
-// Strength checker
-function updateStrength(password) {
-  let score = 0;
+// DOM elements
+const output = document.getElementById("passwordOutput");
+const generateBtn = document.getElementById("generateBtn");
+const copyBtn = document.getElementById("copyBtn");
+const patternSelect = document.getElementById("patternSelect");
 
-  if (password.length >= 10) score++;
-  if (/[A-Z]/.test(password)) score++;
-  if (/[0-9]/.test(password)) score++;
-  if (/[^A-Za-z0-9]/.test(password)) score++;
+// Generate button event
+generateBtn.addEventListener("click", () => {
+  const pattern = patternSelect.value;
+  const password = generatePassword(pattern);
+  output.value = password;
+});
 
-  const bar = document.getElementById("strength-bar");
-  const text = document.getElementById("strength-text");
+// Copy button event
+copyBtn.addEventListener("click", () => {
+  if (!output.value) return;
 
-  const levels = [
-    { width: "25%", text: "Weak", color: "#ef4444" },
-    { width: "50%", text: "Fair", color: "#f59e0b" },
-    { width: "75%", text: "Strong", color: "#3b82f6" },
-    { width: "100%", text: "Very Strong", color: "#22c55e" }
-  ];
-
-  const level = levels[Math.max(0, score - 1)];
-
-  bar.style.width = level.width;
-  bar.style.background = level.color;
-  text.textContent = `Strength: ${level.text}`;
-}
-
-// Copy
-function copyPassword() {
-  const field = document.getElementById("password");
-  if (!field.value) return;
-
-  navigator.clipboard.writeText(field.value);
-
-  const feedback = document.getElementById("feedback");
-  feedback.textContent = "Copied!";
-  setTimeout(() => feedback.textContent = "", 1500);
-}
+  navigator.clipboard.writeText(output.value).then(() => {
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => {
+      copyBtn.textContent = "Copy";
+    }, 1500);
+  });
+});
