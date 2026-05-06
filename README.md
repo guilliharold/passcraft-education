@@ -1,4 +1,4 @@
-## 🔐 PassCraft for Education - Passwords Made Simple
+# 🔐 PassCraft for Education - Passwords Made Simple
 
 ---
 
