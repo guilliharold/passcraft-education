@@ -16,9 +16,10 @@
         <p>Memorable. Secure. Student-friendly.</p>
       </div>
 
+      <!-- Single Password -->
       <div class="password-box">
         <input id="passwordOutput" readonly placeholder="Click generate..." />
-        <button id="copyBtn" title="Copy">📋</button>
+        <button id="copyBtn">📋</button>
       </div>
 
       <div class="strength">
@@ -33,6 +34,21 @@
       <button id="generateBtn" class="generate-btn">
         Generate Password
       </button>
+
+      <!-- Bulk Section -->
+      <div class="bulk-section">
+        <h3>Bulk Generation</h3>
+
+        <div class="bulk-controls">
+          <input type="number" id="bulkCount" min="1" max="500" placeholder="Number of passwords" />
+          <button id="bulkGenerateBtn">Generate</button>
+        </div>
+
+        <div class="file-controls">
+          <input type="file" id="csvInput" accept=".csv" />
+          <button id="exportBtn">Export CSV</button>
+        </div>
+      </div>
 
       <p class="footer-note">
         Generated locally • Nothing is stored
