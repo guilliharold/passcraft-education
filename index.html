@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Password Generator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Password Generator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <div class="card">
-    <h1>Password Generator</h1>
-    <p class="subtitle">
-      Memorable passwords using colours, animals, numbers and symbols
-    </p>
+  <div class="container">
+    <div class="card">
+      <h1>Password Generator</h1>
+      <p class="subtitle">Memorable & Secure Passwords</p>
 
-    <button class="primary" onclick="generate()">Generate Password</button>
+      <div class="output-container">
+        <input type="text" id="passwordOutput" readonly />
+        <button id="copyBtn">Copy</button>
+      </div>
 
-    <div class="output">
-      <input type="text" id="password" readonly placeholder="Click generate...">
-      <button onclick="copyPassword()">Copy</button>
+      <div class="controls">
+        <label for="patternSelect">Choose Pattern:</label>
+        <select id="patternSelect">
+          <option value="colour">Colour + Animal + Number + Symbol</option>
+          <option value="adjective">Adjective + Animal + Year + Symbol</option>
+        </select>
+
+        <button id="generateBtn">Generate Password</button>
+      </div>
+
+      <p class="info">
+        These passwords are generated locally and never stored.
+      </p>
     </div>
-
-    <div class="strength">
-      <div id="strength-bar"></div>
-    </div>
-    <p id="strength-text"></p>
-
-    <p id="feedback" class="feedback"></p>
   </div>
 
   <script src="script.js"></script>
