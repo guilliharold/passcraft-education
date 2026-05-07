@@ -1,1 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PassCraft Education – Strong Passwords for Students</title>
 
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- ══ HEADER ══ -->
+  <header>
+    <div class="logo-badge">
+      <div class="logo-icon">🔐</div>
+      <div class="logo-text">PassCraft <span>Education</span></div>
+    </div>
+    <h1>Create <em>Strong</em>, Memorable<br>Passwords &amp; Passphrases</h1>
+    <p>A safe, student-friendly tool for learning how to craft secure credentials for your school accounts.</p>
+  </header>
+
+  <!-- ══ TAB BAR ══ -->
+  <div class="tab-bar" role="tablist">
+    <button class="tab-btn active" onclick="switchTab('password', this)"    role="tab">🔑 Password</button>
+    <button class="tab-btn"        onclick="switchTab('passphrase', this)"  role="tab">💬 Passphrase</button>
+    <button class="tab-btn"        onclick="switchTab('history', this)"     role="tab">📋 History</button>
+    <button class="tab-btn"        onclick="switchTab('learn', this)"       role="tab">📚 Learn</button>
+  </div>
+
+  <!-- ══ MAIN CARD ══ -->
+  <div class="card">
+
+    <!-- ── PASSWORD PANEL ── -->
+    <div class="panel active" id="panel-password">
+      <div class="section-label">Generated Password</div>
+
+      <div class="output-wrap">
+        <div class="output-box" id="pw-output">Click Generate to start ✨</div>
+        <button class="copy-btn" onclick="copyText('pw-output')" title="Copy password">📋</button>
+      </div>
+
+      <!-- Strength meter -->
+      <div class="strength-row">
+        <div class="strength-bars">
+          <div class="bar" id="bar1"></div>
+          <div class="bar" id="bar2"></div>
+          <div class="bar" id="bar3"></div>
+          <div class="bar" id="bar4"></div>
+          <div class="bar" id="bar5"></div>
+        </div>
+        <div class="strength-label" id="strength-label" style="color:var(--text-light)">–</div>
+      </div>
+
+      <!-- Options -->
+      <div class="controls-grid">
+        <div class="control-group">
+          <label>Password Length</label>
+          <div class="slider-row">
+            <input type="range" id="pw-length" min="8" max="24" value="12"
+                   oninput="document.getElementById('pw-len-val').textContent = this.value" />
+            <span class="range-val" id="pw-len-val">12</span>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label>Include Characters</label>
+          <div class="checkbox-group">
+            <label class="check-item">
+              <input type="checkbox" id="chk-upper" checked />
+              <span class="check-box">✓</span> Uppercase (A–Z)
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="chk-lower" checked />
+              <span class="check-box">✓</span> Lowercase (a–z)
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="chk-num" checked />
+              <span class="check-box">✓</span> Numbers (0–9)
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="chk-sym" checked />
+              <span class="check-box">✓</span> Symbols (!@#$…)
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <button class="generate-btn" onclick="generatePassword()">
+        🎲 Generate Password
+      </button>
+
+      <div class="tip-box">
+        <strong>💡 Tip:</strong> A strong password uses a mix of uppercase, lowercase, numbers, and symbols.
+        Avoid names, birthdays, or common words like <em>"password"</em> or <em>"123456"</em>.
+      </div>
+    </div><!-- /panel-password -->
+
+    <!-- ── PASSPHRASE PANEL ── -->
+    <div class="panel" id="panel-passphrase">
+      <div class="section-label">Generated Passphrase</div>
+
+      <div class="output-wrap">
+        <div class="output-box" id="pp-output">Click Generate to start ✨</div>
+        <button class="copy-btn" onclick="copyText('pp-output')" title="Copy passphrase">📋</button>
+      </div>
+
+      <!-- Strength meter -->
+      <div class="strength-row">
+        <div class="strength-bars">
+          <div class="bar" id="pp-bar1"></div>
+          <div class="bar" id="pp-bar2"></div>
+          <div class="bar" id="pp-bar3"></div>
+          <div class="bar" id="pp-bar4"></div>
+          <div class="bar" id="pp-bar5"></div>
+        </div>
+        <div class="strength-label" id="pp-strength-label" style="color:var(--text-light)">–</div>
+      </div>
+
+      <!-- Options -->
+      <div class="word-count-row control-group">
+        <label>Number of Words</label>
+        <div class="slider-row">
+          <input type="range" id="pp-words" min="3" max="6" value="3"
+                 oninput="document.getElementById('pp-word-val').textContent = this.value" />
+          <span class="range-val" id="pp-word-val">3</span>
+        </div>
+      </div>
+
+      <div class="controls-grid" style="margin-top: 6px;">
+        <div class="control-group">
+          <label>Separator Style</label>
+          <div class="checkbox-group">
+            <label class="check-item">
+              <input type="radio" name="sep" id="sep-cap"  value="cap"  checked style="display:none" />
+              <span class="check-box" id="sepbox-cap"></span> CapitalWords
+            </label>
+            <label class="check-item">
+              <input type="radio" name="sep" id="sep-dash" value="dash" style="display:none" />
+              <span class="check-box" id="sepbox-dash"></span> word-dash
+            </label>
+            <label class="check-item">
+              <input type="radio" name="sep" id="sep-dot"  value="dot"  style="display:none" />
+              <span class="check-box" id="sepbox-dot"></span> word.dot
+            </label>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label>Add Extras</label>
+          <div class="checkbox-group">
+            <label class="check-item">
+              <input type="checkbox" id="pp-num" checked />
+              <span class="check-box">✓</span> Append number (e.g. 2024)
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="pp-sym" checked />
+              <span class="check-box">✓</span> Append symbol (e.g. !)
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <button class="generate-btn" onclick="generatePassphrase()">
+        🌿 Generate Passphrase
+      </button>
+
+      <div class="tip-box">
+        <strong>💡 Example:</strong> <em>BlueDingo2022!</em> or <em>RedKangaroo26$</em> —
+        easy to picture, hard to guess! Passphrases combine real words in unexpected ways.
+      </div>
+    </div><!-- /panel-passphrase -->
+
+    <!-- ── HISTORY PANEL ── -->
+    <div class="panel" id="panel-history">
+      <div class="section-label">Recent Generations</div>
+      <div class="history-list" id="history-list">
+        <div class="empty-history">
+          Nothing generated yet.<br>
+          Head to <strong>Password</strong> or <strong>Passphrase</strong> to get started!
+        </div>
+      </div>
+      <br>
+      <button class="generate-btn" onclick="clearHistory()" style="background: var(--text-light); margin-bottom: 0;">
+        🗑️ Clear History
+      </button>
+    </div><!-- /panel-history -->
+
+    <!-- ── LEARN PANEL ── -->
+    <div class="panel" id="panel-learn">
+      <div class="section-label">Password Safety Tips</div>
+
+      <div class="tips-grid">
+
+        <div class="tip-card">
+          <div class="tip-card-icon">🚫</div>
+          <h3>Never Use These</h3>
+          <p>These are the most commonly guessed passwords — avoid them completely!</p>
+          <div class="bad-list">
+            <span class="bad-tag">password</span>
+            <span class="bad-tag">123456</span>
+            <span class="bad-tag">qwerty</span>
+            <span class="bad-tag">abc123</span>
+            <span class="bad-tag">monkey</span>
+            <span class="bad-tag">letmein</span>
+            <span class="bad-tag">iloveyou</span>
+            <span class="bad-tag">admin</span>
+          </div>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-card-icon">✅</div>
+          <h3>Great Examples</h3>
+          <p>Memorable, colourful, and secure — these mix vivid imagery with strong security.</p>
+          <div class="bad-list">
+            <span class="good-tag">BlueDingo2022!</span>
+            <span class="good-tag">RedKangaroo26$</span>
+            <span class="good-tag">SunnyKoala#88</span>
+            <span class="good-tag">PurpleWombat7@</span>
+          </div>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-card-icon">🔁</div>
+          <h3>Don't Reuse Passwords</h3>
+          <p>If one account gets hacked and you reuse the same password, ALL your accounts are at risk. Use a unique password for each site.</p>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-card-icon">🤫</div>
+          <h3>Keep It Secret</h3>
+          <p>Never share your password — not even with friends! Your teacher or school IT team will <em>never</em> ask for your password.</p>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-card-icon">📏</div>
+          <h3>Longer = Stronger</h3>
+          <p>Every extra character makes your password exponentially harder to crack. Aim for at least <strong>12 characters</strong>.</p>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-card-icon">🎨</div>
+          <h3>Make It Memorable</h3>
+          <p>Combine a <strong>colour + animal + year + symbol</strong>. It creates something unique <em>and</em> easy to picture in your head.</p>
+        </div>
+
+      </div><!-- /tips-grid -->
+
+      <div class="tip-box">
+        <strong>🌐 Using PassCraft:</strong> This tool runs entirely in your browser —
+        no passwords are stored, sent, or saved anywhere. It's completely private!
+      </div>
+    </div><!-- /panel-learn -->
+
+  </div><!-- /card -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <p>PassCraft Education &mdash; Helping students stay safe online 🌿</p>
+    <p style="margin-top: 4px;">All generation happens locally in your browser. Nothing is stored or transmitted.</p>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<!-- Toast notification -->
+<div class="toast" id="toast">Copied to clipboard! ✓</div>
+
+<!-- Main script -->
+<script src="script.js"></script>
+
+</body>
+</html>
