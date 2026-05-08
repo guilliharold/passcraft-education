@@ -38,12 +38,57 @@
   <!-- ══ MAIN CARD ══ -->
   <div class="card">
 
-    <!-- ── PASSWORD PANEL ── -->
+    <!-- ══════════════════════════════════════
+         PASSWORD PANEL
+    ═══════════════════════════════════════ -->
     <div class="panel active" id="panel-password">
-      <div class="section-label">Generated Password</div>
+
+      <div class="section-label">Choose a Password Pattern</div>
+
+      <!--
+        Four pattern cards — one per required formula.
+        Selecting a card picks the matching word banks.
+        All patterns always append:  Number + Special Character
+      -->
+      <div class="pattern-grid">
+
+        <!-- Pattern 1: Word + Word + Number + Symbol -->
+        <label class="pattern-card">
+          <input type="radio" name="pw-pattern" value="word-word" />
+          <div class="pattern-card-label">🔤 Word + Word</div>
+          <div class="pattern-card-desc">e.g. BraveMountain47!</div>
+        </label>
+
+        <!-- Pattern 2: Adjective + Noun + Number + Symbol -->
+        <label class="pattern-card">
+          <input type="radio" name="pw-pattern" value="adj-noun" />
+          <div class="pattern-card-label">✏️ Adjective + Noun</div>
+          <div class="pattern-card-desc">e.g. CleverRocket83@</div>
+        </label>
+
+        <!-- Pattern 3: Animal + Food + Number + Symbol -->
+        <label class="pattern-card">
+          <input type="radio" name="pw-pattern" value="animal-food" />
+          <div class="pattern-card-label">🐨 Animal + Food</div>
+          <div class="pattern-card-desc">e.g. KoalaPizza29$</div>
+        </label>
+
+        <!-- Pattern 4: Colour + Animal + Number + Symbol -->
+        <label class="pattern-card">
+          <input type="radio" name="pw-pattern" value="colour-animal" />
+          <div class="pattern-card-label">🎨 Colour + Animal</div>
+          <div class="pattern-card-desc">e.g. BlueDingo47!</div>
+        </label>
+
+      </div><!-- /pattern-grid -->
+
+      <!-- Formula hint — filled dynamically by JS after generation -->
+      <div class="formula-row" id="pw-pattern-hint"></div>
+
+      <div class="section-label" style="margin-top: 20px;">Generated Password</div>
 
       <div class="output-wrap">
-        <div class="output-box" id="pw-output">Click Generate to start ✨</div>
+        <div class="output-box" id="pw-output">Select a pattern above, then click Generate ✨</div>
         <button class="copy-btn" onclick="copyText('pw-output')" title="Copy password">📋</button>
       </div>
 
@@ -56,41 +101,7 @@
           <div class="bar" id="bar4"></div>
           <div class="bar" id="bar5"></div>
         </div>
-        <div class="strength-label" id="strength-label" style="color:var(--text-light)">–</div>
-      </div>
-
-      <!-- Options -->
-      <div class="controls-grid">
-        <div class="control-group">
-          <label>Password Length</label>
-          <div class="slider-row">
-            <input type="range" id="pw-length" min="8" max="24" value="12"
-                   oninput="document.getElementById('pw-len-val').textContent = this.value" />
-            <span class="range-val" id="pw-len-val">12</span>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label>Include Characters</label>
-          <div class="checkbox-group">
-            <label class="check-item">
-              <input type="checkbox" id="chk-upper" checked />
-              <span class="check-box">✓</span> Uppercase (A–Z)
-            </label>
-            <label class="check-item">
-              <input type="checkbox" id="chk-lower" checked />
-              <span class="check-box">✓</span> Lowercase (a–z)
-            </label>
-            <label class="check-item">
-              <input type="checkbox" id="chk-num" checked />
-              <span class="check-box">✓</span> Numbers (0–9)
-            </label>
-            <label class="check-item">
-              <input type="checkbox" id="chk-sym" checked />
-              <span class="check-box">✓</span> Symbols (!@#$…)
-            </label>
-          </div>
-        </div>
+        <div class="strength-label" id="strength-label" style="color: var(--text-light)">–</div>
       </div>
 
       <button class="generate-btn" onclick="generatePassword()">
@@ -98,13 +109,18 @@
       </button>
 
       <div class="tip-box">
-        <strong>💡 Tip:</strong> A strong password uses a mix of uppercase, lowercase, numbers, and symbols.
-        Avoid names, birthdays, or common words like <em>"password"</em> or <em>"123456"</em>.
+        <strong>💡 How it works:</strong> Every password follows a
+        <em>Word + Word + Number + Symbol</em> formula — easy to remember, but hard to guess.
+        Words are randomly chosen from large lists each time you generate!
       </div>
+
     </div><!-- /panel-password -->
 
-    <!-- ── PASSPHRASE PANEL ── -->
+    <!-- ══════════════════════════════════════
+         PASSPHRASE PANEL
+    ═══════════════════════════════════════ -->
     <div class="panel" id="panel-passphrase">
+
       <div class="section-label">Generated Passphrase</div>
 
       <div class="output-wrap">
@@ -121,10 +137,10 @@
           <div class="bar" id="pp-bar4"></div>
           <div class="bar" id="pp-bar5"></div>
         </div>
-        <div class="strength-label" id="pp-strength-label" style="color:var(--text-light)">–</div>
+        <div class="strength-label" id="pp-strength-label" style="color: var(--text-light)">–</div>
       </div>
 
-      <!-- Options -->
+      <!-- Number of words slider -->
       <div class="word-count-row control-group">
         <label>Number of Words</label>
         <div class="slider-row">
@@ -134,6 +150,7 @@
         </div>
       </div>
 
+      <!-- Separator + extras -->
       <div class="controls-grid" style="margin-top: 6px;">
         <div class="control-group">
           <label>Separator Style</label>
@@ -158,7 +175,7 @@
           <div class="checkbox-group">
             <label class="check-item">
               <input type="checkbox" id="pp-num" checked />
-              <span class="check-box">✓</span> Append number (e.g. 2024)
+              <span class="check-box">✓</span> Append number (e.g. 47)
             </label>
             <label class="check-item">
               <input type="checkbox" id="pp-sym" checked />
@@ -173,28 +190,39 @@
       </button>
 
       <div class="tip-box">
-        <strong>💡 Example:</strong> <em>BlueDingo2022!</em> or <em>RedKangaroo26$</em> —
-        easy to picture, hard to guess! Passphrases combine real words in unexpected ways.
+        <strong>💡 Example:</strong> <em>BlueDingo47!</em> or <em>CoralKoalaStorm83@</em> —
+        easy to picture, hard to guess! Passphrases chain random words from all categories.
       </div>
+
     </div><!-- /panel-passphrase -->
 
-    <!-- ── HISTORY PANEL ── -->
+    <!-- ══════════════════════════════════════
+         HISTORY PANEL
+    ═══════════════════════════════════════ -->
     <div class="panel" id="panel-history">
+
       <div class="section-label">Recent Generations</div>
+
       <div class="history-list" id="history-list">
         <div class="empty-history">
           Nothing generated yet.<br>
           Head to <strong>Password</strong> or <strong>Passphrase</strong> to get started!
         </div>
       </div>
+
       <br>
-      <button class="generate-btn" onclick="clearHistory()" style="background: var(--text-light); margin-bottom: 0;">
+      <button class="generate-btn" onclick="clearHistory()"
+              style="background: var(--text-light); margin-bottom: 0;">
         🗑️ Clear History
       </button>
+
     </div><!-- /panel-history -->
 
-    <!-- ── LEARN PANEL ── -->
+    <!-- ══════════════════════════════════════
+         LEARN PANEL
+    ═══════════════════════════════════════ -->
     <div class="panel" id="panel-learn">
+
       <div class="section-label">Password Safety Tips</div>
 
       <div class="tips-grid">
@@ -218,19 +246,19 @@
         <div class="tip-card">
           <div class="tip-card-icon">✅</div>
           <h3>Great Examples</h3>
-          <p>Memorable, colourful, and secure — these mix vivid imagery with strong security.</p>
+          <p>Memorable, colourful, and secure — one from each of the four patterns!</p>
           <div class="bad-list">
-            <span class="good-tag">BlueDingo2022!</span>
-            <span class="good-tag">RedKangaroo26$</span>
-            <span class="good-tag">SunnyKoala#88</span>
-            <span class="good-tag">PurpleWombat7@</span>
+            <span class="good-tag">BraveMountain47!</span>
+            <span class="good-tag">CleverRocket83@</span>
+            <span class="good-tag">KoalaPizza29$</span>
+            <span class="good-tag">BlueDingo47!</span>
           </div>
         </div>
 
         <div class="tip-card">
           <div class="tip-card-icon">🔁</div>
           <h3>Don't Reuse Passwords</h3>
-          <p>If one account gets hacked and you reuse the same password, ALL your accounts are at risk. Use a unique password for each site.</p>
+          <p>If one account gets hacked and you reuse the same password, ALL your accounts are at risk. Use a unique password for each site or app.</p>
         </div>
 
         <div class="tip-card">
@@ -242,21 +270,22 @@
         <div class="tip-card">
           <div class="tip-card-icon">📏</div>
           <h3>Longer = Stronger</h3>
-          <p>Every extra character makes your password exponentially harder to crack. Aim for at least <strong>12 characters</strong>.</p>
+          <p>Every extra character makes your password exponentially harder to crack. PassCraft's patterns always produce passwords of <strong>12+ characters</strong>.</p>
         </div>
 
         <div class="tip-card">
           <div class="tip-card-icon">🎨</div>
           <h3>Make It Memorable</h3>
-          <p>Combine a <strong>colour + animal + year + symbol</strong>. It creates something unique <em>and</em> easy to picture in your head.</p>
+          <p>The <strong>Colour + Animal</strong> and <strong>Animal + Food</strong> patterns create a vivid mental image — like a picture in your head — that's easy to recall later!</p>
         </div>
 
       </div><!-- /tips-grid -->
 
       <div class="tip-box">
         <strong>🌐 Using PassCraft:</strong> This tool runs entirely in your browser —
-        no passwords are stored, sent, or saved anywhere. It's completely private!
+        no passwords are stored, sent, or saved anywhere. It is completely private!
       </div>
+
     </div><!-- /panel-learn -->
 
   </div><!-- /card -->
