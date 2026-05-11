@@ -1,4 +1,4 @@
-# 🔐 PassCraft for Education - Passwords Made Simple
+# 🔐 PassCraft Education - Passwords Made Simple
 
 **PassCraft Education** is a free, safe, and student-friendly tool designed to help school students create strong, secure, and memorable passwords and passphrases for their school accounts and beyond.
 
