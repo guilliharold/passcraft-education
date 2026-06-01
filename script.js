@@ -1,379 +1,451 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PassCraft Education – Strong Passwords for Students</title>
+/* ═══════════════════════════════════════════════
+   PASSCRAFT EDUCATION — Main Script
+   script.js
+═══════════════════════════════════════════════ */
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+/* ─────────────────────────────────────────────
+   WORD BANKS
+───────────────────────────────────────────── */
+const ADJECTIVES = [
+  'Brave','Clever','Swift','Mighty','Calm','Bright','Gentle','Bold',
+  'Fierce','Lucky','Jolly','Proud','Witty','Eager','Loyal','Vivid',
+  'Sunny','Crisp','Daring','Noble','Honest','Quirky','Zesty','Lively',
+  'Fluffy','Grumpy','Bouncy','Sparky','Fuzzy','Snappy','Peppy','Wobbly'
+];
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+const NOUNS = [
+  'Mountain','Rocket','Castle','Comet','Storm','Forest','River','Galaxy',
+  'Lantern','Shield','Compass','Anchor','Sunrise','Crystal','Flame','Tower',
+  'Bridge','Cloud','Stone','Ember','Breeze','Canyon','Meadow','Crater',
+  'Candle','Barrel','Feather','Pebble','Wagon','Kettle','Blanket','Hammer'
+];
 
-<div class="wrapper">
+const ANIMALS = [
+  'Dingo','Kangaroo','Koala','Wombat','Platypus','Echidna','Quokka',
+  'Wallaby','Possum','Bilby','Kookaburra','Magpie','Numbat','Gecko',
+  'Eagle','Parrot','Dolphin','Penguin','Falcon','Otter','Panda','Jaguar',
+  'Meerkat','Lemur','Narwhal','Axolotl','Capybara','Flamingo','Hamster'
+];
 
-  <!-- ══ HEADER ══ -->
-  <header>
-    <div class="logo-badge">
-      <div class="logo-icon">🔐</div>
-      <div class="logo-text">PassCraft <span>Education</span></div>
+const FOODS = [
+  'Pizza','Mango','Waffle','Taco','Sushi','Pasta','Donut','Melon',
+  'Brownie','Pretzel','Noodle','Burrito','Muffin','Dumpling','Falafel',
+  'Churro','Scone','Ramen','Biscuit','Pancake','Gelato','Kebab','Bagel',
+  'Nacho','Pudding','Biscotti','Crumpet','Nougat','Cannoli','Fritter'
+];
+
+const COLOURS = [
+  'Blue','Red','Green','Purple','Orange','Yellow','Silver','Golden',
+  'Pink','Violet','Coral','Amber','Indigo','Teal','Crimson','Jade',
+  'Scarlet','Azure','Ivory','Olive','Maroon','Cobalt','Magenta','Bronze',
+  'Russet','Cerulean','Vermillion','Chartreuse','Ochre','Lavender'
+];
+
+/* ─────────────────────────────────────────────
+   PASSWORD PATTERN DEFINITIONS
+   Each pattern picks one word from each bank,
+   then appends a 2-digit number + special char.
+   Structure: Word + Word + Number + Symbol
+───────────────────────────────────────────── */
+const PATTERNS = [
+  {
+    id:    'word-word',
+    label: '🔤 Word + Word',
+    desc:  'e.g. BraveMountain47!',
+    banks: ['ADJECTIVES', 'NOUNS']
+  },
+  {
+    id:    'adj-noun',
+    label: '✏️ Adjective + Noun',
+    desc:  'e.g. CleverRocket83@',
+    banks: ['ADJECTIVES', 'NOUNS']
+  },
+  {
+    id:    'animal-food',
+    label: '🐨 Animal + Food',
+    desc:  'e.g. KoalaPizza29$',
+    banks: ['ANIMALS', 'FOODS']
+  },
+  {
+    id:    'colour-animal',
+    label: '🎨 Colour + Animal',
+    desc:  'e.g. BlueDingo47!',
+    banks: ['COLOURS', 'ANIMALS']
+  }
+];
+
+/* Maps bank name strings → actual arrays */
+const BANK_MAP = { ADJECTIVES, NOUNS, ANIMALS, FOODS, COLOURS };
+
+/* Human-readable labels for the formula hint */
+const BANK_LABELS = {
+  ADJECTIVES: 'Adjective',
+  NOUNS:      'Noun',
+  ANIMALS:    'Animal',
+  FOODS:      'Food',
+  COLOURS:    'Colour'
+};
+
+/* ─────────────────────────────────────────────
+   PASSPHRASE — uses all word types combined
+───────────────────────────────────────────── */
+const ALL_WORDS = [
+  ...ADJECTIVES, ...NOUNS, ...ANIMALS, ...FOODS, ...COLOURS
+];
+
+/* ─────────────────────────────────────────────
+   CHARACTER SETS
+   Ambiguous chars (0/O, 1/l/I) excluded
+───────────────────────────────────────────── */
+const CHARS = {
+  num: '23456789',
+  sym: '!@#$%&*?'
+};
+
+/* ─────────────────────────────────────────────
+   STRENGTH METADATA
+───────────────────────────────────────────── */
+const STRENGTH_COLOURS = ['', '#c0392b', '#e67e22', '#f1c40f', '#27ae60', '#1e8449'];
+const STRENGTH_LABELS  = ['', 'Very Weak', 'Weak', 'Fair', 'Strong', 'Very Strong'];
+
+/* ─────────────────────────────────────────────
+   SESSION HISTORY
+───────────────────────────────────────────── */
+let history = [];
+
+/* ─────────────────────────────────────────────
+   CRYPTO UTILITIES
+───────────────────────────────────────────── */
+
+/** Cryptographically secure random integer in [0, max) */
+function randInt(max) {
+  const arr = new Uint32Array(1);
+  crypto.getRandomValues(arr);
+  return arr[0] % max;
+}
+
+/** Pick a random element from an array or string */
+function pick(collection) {
+  return collection[randInt(collection.length)];
+}
+
+/** Generate a random 2-digit number string (10–99) */
+function randTwoDigit() {
+  return String(10 + randInt(90));
+}
+
+/* ─────────────────────────────────────────────
+   TAB SWITCHING
+───────────────────────────────────────────── */
+function switchTab(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ─────────────────────────────────────────────
+   PASSWORD GENERATOR
+   Formula: Word + Word + Number + Symbol
+   e.g.  BlueDingo47!  |  KoalaPizza83@
+───────────────────────────────────────────── */
+function generatePassword() {
+  /* Identify the selected pattern */
+  const selectedRadio = document.querySelector('input[name=pw-pattern]:checked');
+  if (!selectedRadio) {
+    showToast('Please select a password pattern first!');
+    return;
+  }
+
+  const pattern = PATTERNS.find(p => p.id === selectedRadio.value);
+  if (!pattern) return;
+
+  /* Pick one Title-Cased word from each bank */
+  const words = pattern.banks.map(bankName => titleCase(pick(BANK_MAP[bankName])));
+
+  /* Assemble: Word1 + Word2 + 2-digit number + symbol */
+  const number = randTwoDigit();
+  const symbol = pick(CHARS.sym);
+  const pw     = words.join('') + number + symbol;
+
+  displayOutput('pw-output', pw);
+  updateStrength('bar', 'strength-label', pw);
+  updateFormulaHint(pattern);
+  addHistory(pw, 'password', pattern.label);
+}
+
+/** Capitalise first letter, lowercase the rest */
+function titleCase(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
+
+/** Render the formula pill row beneath the output box */
+function updateFormulaHint(pattern) {
+  const hint = document.getElementById('pw-pattern-hint');
+  if (!hint) return;
+
+  const parts = [
+    ...pattern.banks.map(b => BANK_LABELS[b]),
+    'Number',
+    'Symbol'
+  ];
+
+  hint.innerHTML = parts
+    .map(p => `<span class="formula-part">${p}</span>`)
+    .join('<span class="formula-sep">+</span>');
+}
+
+/* ─────────────────────────────────────────────
+   PASSPHRASE GENERATOR
+   Formula: Word(s) + optional number + optional symbol
+   Uses the same 4 word banks, mixed together
+───────────────────────────────────────────── */
+function generatePassphrase() {
+  const wordCount = parseInt(document.getElementById('pp-words').value);
+  const addNum    = document.getElementById('pp-num').checked;
+  const addSym    = document.getElementById('pp-sym').checked;
+  const sepStyle  = document.querySelector('input[name=sep]:checked').value;
+
+  /* Build the word segment */
+  const words = Array.from({ length: wordCount }, () => pick(ALL_WORDS));
+
+  let phrase;
+  if (sepStyle === 'cap') {
+    phrase = words.map(w => titleCase(w)).join('');
+  } else if (sepStyle === 'dash') {
+    phrase = words.map(w => w.toLowerCase()).join('-');
+  } else {
+    phrase = words.map(w => w.toLowerCase()).join('.');
+  }
+
+  if (addNum) phrase += randTwoDigit();
+  if (addSym) phrase += pick(CHARS.sym);
+
+  displayOutput('pp-output', phrase);
+  updateStrength('pp-bar', 'pp-strength-label', phrase);
+  addHistory(phrase, 'passphrase', '💬 Passphrase');
+}
+
+/* ─────────────────────────────────────────────
+   STRENGTH METER
+───────────────────────────────────────────── */
+function calcStrength(pw) {
+  let score = 0;
+  if (pw.length >= 8)           score++;
+  if (pw.length >= 12)          score++;
+  if (pw.length >= 16)          score++;
+  if (/[A-Z]/.test(pw))         score++;
+  if (/[a-z]/.test(pw))         score++;
+  if (/[0-9]/.test(pw))         score++;
+  if (/[^A-Za-z0-9]/.test(pw))  score++;
+  return Math.min(5, Math.round((score / 7) * 5));
+}
+
+function updateStrength(barPrefix, labelId, pw) {
+  const score = calcStrength(pw);
+
+  for (let i = 1; i <= 5; i++) {
+    const bar = document.getElementById(barPrefix + i);
+    if (!bar) continue;
+    bar.style.background = i <= score ? STRENGTH_COLOURS[score] : 'var(--cream-dark)';
+    bar.style.transition  = `background .4s ease ${(i - 1) * 0.07}s`;
+  }
+
+  const lbl = document.getElementById(labelId);
+  if (!lbl) return;
+  lbl.textContent = STRENGTH_LABELS[score];
+  lbl.style.color = STRENGTH_COLOURS[score];
+}
+
+/* ─────────────────────────────────────────────
+   OUTPUT DISPLAY
+───────────────────────────────────────────── */
+function displayOutput(id, text) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.classList.remove('pulse');
+  void el.offsetWidth; /* force reflow to restart animation */
+  el.classList.add('pulse');
+}
+
+/* ─────────────────────────────────────────────
+   HISTORY
+───────────────────────────────────────────── */
+function addHistory(text, type, patternLabel) {
+  history.unshift({ text, type, patternLabel, ts: Date.now() });
+  if (history.length > 12) history.pop();
+  renderHistory();
+}
+
+function renderHistory() {
+  const list = document.getElementById('history-list');
+  if (!list) return;
+
+  if (history.length === 0) {
+    list.innerHTML = `
+      <div class="empty-history">
+        Nothing generated yet.<br>
+        Head to <strong>Password</strong> or <strong>Passphrase</strong> to get started!
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = history.map((item, i) => `
+    <div class="history-item" style="animation-delay:${i * 0.04}s">
+      <div class="history-item-inner">
+        <span class="history-label">${escapeHtml(item.patternLabel || (item.type === 'passphrase' ? '💬 Passphrase' : '🔑 Password'))}</span>
+        <span class="history-pw">${escapeHtml(item.text)}</span>
+      </div>
+      <button class="history-copy" onclick="copyRaw('${escapeAttr(item.text)}')">Copy</button>
     </div>
-    <h1>Create <em>Strong</em>, Memorable<br>Passwords &amp; Passphrases</h1>
-    <p>A safe, student-friendly tool for learning how to craft secure credentials for your school accounts.</p>
-  </header>
+  `).join('');
+}
 
-  <!-- ══ TAB BAR ══ -->
-  <div class="tab-bar" role="tablist">
-    <button class="tab-btn active" onclick="switchTab('password', this)"    role="tab">🔑 Password</button>
-    <button class="tab-btn"        onclick="switchTab('passphrase', this)"  role="tab">💬 Passphrase</button>
-    <button class="tab-btn"        onclick="switchTab('history', this)"     role="tab">📋 History</button>
-    <button class="tab-btn"        onclick="switchTab('learn', this)"       role="tab">📚 Learn</button>
-  </div>
+function clearHistory() {
+  history = [];
+  renderHistory();
+  showToast('History cleared!');
+}
 
-  <!-- ══ MAIN CARD ══ -->
-  <div class="card">
+/* ─────────────────────────────────────────────
+   CLIPBOARD
+───────────────────────────────────────────── */
+function copyText(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const text = el.textContent.trim();
+  if (!text || text.startsWith('Select a pattern') || text.startsWith('Click Generate')) {
+    showToast('Generate something first!');
+    return;
+  }
+  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard! ✓'));
+}
 
-    <!-- ══════════════════════════════════════
-         PASSWORD PANEL
-    ═══════════════════════════════════════ -->
-    <div class="panel active" id="panel-password">
+function copyRaw(text) {
+  navigator.clipboard.writeText(text).then(() => showToast('Copied! ✓'));
+}
 
-      <div class="section-label">Choose a Password Pattern</div>
+/* ─────────────────────────────────────────────
+   TOAST NOTIFICATION
+───────────────────────────────────────────── */
+let toastTimer;
 
-      <!--
-        Four pattern cards — one per required formula.
-        Selecting a card picks the matching word banks.
-        All patterns always append:  Number + Special Character
-      -->
-      <div class="pattern-grid">
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
 
-        <!-- Pattern 1: Word + Word + Number + Symbol -->
-        <label class="pattern-card">
-          <input type="radio" name="pw-pattern" value="word-word" />
-          <div class="pattern-card-label">🔤 Word + Word</div>
-          <div class="pattern-card-desc">e.g. BraveMountain47!</div>
-        </label>
+/* ─────────────────────────────────────────────
+   SAFE HTML HELPERS
+───────────────────────────────────────────── */
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
 
-        <!-- Pattern 2: Adjective + Noun + Number + Symbol -->
-        <label class="pattern-card">
-          <input type="radio" name="pw-pattern" value="adj-noun" />
-          <div class="pattern-card-label">✏️ Adjective + Noun</div>
-          <div class="pattern-card-desc">e.g. CleverRocket83@</div>
-        </label>
+function escapeAttr(s) {
+  return String(s)
+    .replace(/'/g, '&#39;')
+    .replace(/"/g, '&quot;');
+}
 
-        <!-- Pattern 3: Animal + Food + Number + Symbol -->
-        <label class="pattern-card">
-          <input type="radio" name="pw-pattern" value="animal-food" />
-          <div class="pattern-card-label">🐨 Animal + Food</div>
-          <div class="pattern-card-desc">e.g. KoalaPizza29$</div>
-        </label>
+/* ─────────────────────────────────────────────
+   PRINT PASSWORD SLIP
+───────────────────────────────────────────── */
+function printPassword(outputId) {
+  const el = document.getElementById(outputId);
+  if (!el) return;
 
-        <!-- Pattern 4: Colour + Animal + Number + Symbol -->
-        <label class="pattern-card">
-          <input type="radio" name="pw-pattern" value="colour-animal" />
-          <div class="pattern-card-label">🎨 Colour + Animal</div>
-          <div class="pattern-card-desc">e.g. BlueDingo47!</div>
-        </label>
+  const pw = el.textContent.trim();
+  const placeholder = outputId === 'pw-output'
+    ? 'Select a pattern above, then click Generate ✨'
+    : 'Click Generate to start ✨';
 
-      </div><!-- /pattern-grid -->
+  if (!pw || pw === placeholder) {
+    showToast('Generate a password first!');
+    return;
+  }
 
-      <!-- Formula hint — filled dynamically by JS after generation -->
-      <div class="formula-row" id="pw-pattern-hint"></div>
+  /* Populate the print slip */
+  document.getElementById('print-pw-display').textContent = pw;
+  document.getElementById('print-date').textContent =
+    new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
 
-      <div class="section-label" style="margin-top: 20px;">Generated Password</div>
+  /* Show slip, print, hide slip */
+  const slip = document.getElementById('print-slip');
+  slip.style.display = 'flex';
+  window.print();
+  slip.style.display = 'none';
+}
 
-      <div class="output-wrap">
-        <div class="output-box" id="pw-output">Select a pattern above, then click Generate ✨</div>
-        <button class="copy-btn" onclick="copyText('pw-output')" title="Copy password">📋</button>
-      </div>
+/* ─────────────────────────────────────────────
+   CONTROL WIRING
+───────────────────────────────────────────── */
 
-      <!-- Strength meter -->
-      <div class="strength-row">
-        <div class="strength-bars">
-          <div class="bar" id="bar1"></div>
-          <div class="bar" id="bar2"></div>
-          <div class="bar" id="bar3"></div>
-          <div class="bar" id="bar4"></div>
-          <div class="bar" id="bar5"></div>
-        </div>
-        <div class="strength-label" id="strength-label" style="color: var(--text-light)">–</div>
-      </div>
+/** Sync the custom radio box visuals for passphrase separator */
+function wirePassphraseSeparators() {
+  document.querySelectorAll('input[name=sep]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('input[name=sep]').forEach(r => {
+        const box = document.getElementById('sepbox-' + r.value);
+        if (box) box.textContent = r.checked ? '✓' : '';
+      });
+    });
+  });
+}
 
-      <button class="generate-btn" onclick="generatePassword()">
-        🎲 Generate Password
-      </button>
+/** Sync custom checkbox visuals */
+function wireCheckboxes() {
+  document.querySelectorAll('.check-item input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const box = cb.nextElementSibling;
+      if (box && box.classList.contains('check-box')) {
+        box.textContent = cb.checked ? '✓' : '';
+      }
+    });
+  });
+}
 
-      <button class="print-btn" onclick="printPassword('pw-output')">
-        🖨️ Print Password Slip
-      </button>
+/** Highlight the selected pattern card */
+function wirePatternCards() {
+  document.querySelectorAll('input[name=pw-pattern]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.pattern-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      const card = radio.closest('.pattern-card');
+      if (card) card.classList.add('selected');
+    });
+  });
+}
 
-      <div class="tip-box">
-        <strong>💡 How it works:</strong> Every password follows a
-        <em>Word + Word + Number + Symbol</em> formula — easy to remember, but hard to guess.
-        Words are randomly chosen from large lists each time you generate!
-      </div>
+/* ─────────────────────────────────────────────
+   INITIALISE ON LOAD
+───────────────────────────────────────────── */
+window.addEventListener('load', () => {
+  wirePassphraseSeparators();
+  wireCheckboxes();
+  wirePatternCards();
 
-    </div><!-- /panel-password -->
+  /* Set initial passphrase separator visual */
+  const sepCapBox = document.getElementById('sepbox-cap');
+  if (sepCapBox) sepCapBox.textContent = '✓';
 
-    <!-- ══════════════════════════════════════
-         PASSPHRASE PANEL
-    ═══════════════════════════════════════ -->
-    <div class="panel" id="panel-passphrase">
+  /* Select and highlight the first pattern card by default */
+  const firstRadio = document.querySelector('input[name=pw-pattern]');
+  if (firstRadio) {
+    firstRadio.checked = true;
+    const firstCard = firstRadio.closest('.pattern-card');
+    if (firstCard) firstCard.classList.add('selected');
+  }
 
-      <div class="section-label">Generated Passphrase</div>
-
-      <div class="output-wrap">
-        <div class="output-box" id="pp-output">Click Generate to start ✨</div>
-        <button class="copy-btn" onclick="copyText('pp-output')" title="Copy passphrase">📋</button>
-      </div>
-
-      <!-- Strength meter -->
-      <div class="strength-row">
-        <div class="strength-bars">
-          <div class="bar" id="pp-bar1"></div>
-          <div class="bar" id="pp-bar2"></div>
-          <div class="bar" id="pp-bar3"></div>
-          <div class="bar" id="pp-bar4"></div>
-          <div class="bar" id="pp-bar5"></div>
-        </div>
-        <div class="strength-label" id="pp-strength-label" style="color: var(--text-light)">–</div>
-      </div>
-
-      <!-- Number of words slider -->
-      <div class="word-count-row control-group">
-        <label>Number of Words</label>
-        <div class="slider-row">
-          <input type="range" id="pp-words" min="3" max="6" value="3"
-                 oninput="document.getElementById('pp-word-val').textContent = this.value" />
-          <span class="range-val" id="pp-word-val">3</span>
-        </div>
-      </div>
-
-      <!-- Separator + extras -->
-      <div class="controls-grid" style="margin-top: 6px;">
-        <div class="control-group">
-          <label>Separator Style</label>
-          <div class="checkbox-group">
-            <label class="check-item">
-              <input type="radio" name="sep" id="sep-cap"  value="cap"  checked style="display:none" />
-              <span class="check-box" id="sepbox-cap"></span> CapitalWords
-            </label>
-            <label class="check-item">
-              <input type="radio" name="sep" id="sep-dash" value="dash" style="display:none" />
-              <span class="check-box" id="sepbox-dash"></span> word-dash
-            </label>
-            <label class="check-item">
-              <input type="radio" name="sep" id="sep-dot"  value="dot"  style="display:none" />
-              <span class="check-box" id="sepbox-dot"></span> word.dot
-            </label>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label>Add Extras</label>
-          <div class="checkbox-group">
-            <label class="check-item">
-              <input type="checkbox" id="pp-num" checked />
-              <span class="check-box">✓</span> Append number (e.g. 47)
-            </label>
-            <label class="check-item">
-              <input type="checkbox" id="pp-sym" checked />
-              <span class="check-box">✓</span> Append symbol (e.g. !)
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <button class="generate-btn" onclick="generatePassphrase()">
-        🌿 Generate Passphrase
-      </button>
-
-      <button class="print-btn" onclick="printPassword('pp-output')">
-        🖨️ Print Password Slip
-      </button>
-
-      <div class="tip-box">
-        <strong>💡 Example:</strong> <em>BlueDingo47!</em> or <em>CoralKoalaStorm83@</em> —
-        easy to picture, hard to guess! Passphrases chain random words from all categories.
-      </div>
-
-    </div><!-- /panel-passphrase -->
-
-    <!-- ══════════════════════════════════════
-         HISTORY PANEL
-    ═══════════════════════════════════════ -->
-    <div class="panel" id="panel-history">
-
-      <div class="section-label">Recent Generations</div>
-
-      <div class="history-list" id="history-list">
-        <div class="empty-history">
-          Nothing generated yet.<br>
-          Head to <strong>Password</strong> or <strong>Passphrase</strong> to get started!
-        </div>
-      </div>
-
-      <br>
-      <button class="generate-btn" onclick="clearHistory()"
-              style="background: var(--text-light); margin-bottom: 0;">
-        🗑️ Clear History
-      </button>
-
-    </div><!-- /panel-history -->
-
-    <!-- ══════════════════════════════════════
-         LEARN PANEL
-    ═══════════════════════════════════════ -->
-    <div class="panel" id="panel-learn">
-
-      <div class="section-label">Password Safety Tips</div>
-
-      <div class="tips-grid">
-
-        <div class="tip-card">
-          <div class="tip-card-icon">🚫</div>
-          <h3>Never Use These</h3>
-          <p>These are the most commonly guessed passwords — avoid them completely!</p>
-          <div class="bad-list">
-            <span class="bad-tag">password</span>
-            <span class="bad-tag">123456</span>
-            <span class="bad-tag">qwerty</span>
-            <span class="bad-tag">abc123</span>
-            <span class="bad-tag">monkey</span>
-            <span class="bad-tag">letmein</span>
-            <span class="bad-tag">iloveyou</span>
-            <span class="bad-tag">admin</span>
-          </div>
-        </div>
-
-        <div class="tip-card">
-          <div class="tip-card-icon">✅</div>
-          <h3>Great Examples</h3>
-          <p>Memorable, colourful, and secure — one from each of the four patterns!</p>
-          <div class="bad-list">
-            <span class="good-tag">BraveMountain47!</span>
-            <span class="good-tag">CleverRocket83@</span>
-            <span class="good-tag">KoalaPizza29$</span>
-            <span class="good-tag">BlueDingo47!</span>
-          </div>
-        </div>
-
-        <div class="tip-card">
-          <div class="tip-card-icon">🔁</div>
-          <h3>Don't Reuse Passwords</h3>
-          <p>If one account gets hacked and you reuse the same password, ALL your accounts are at risk. Use a unique password for each site or app.</p>
-        </div>
-
-        <div class="tip-card">
-          <div class="tip-card-icon">🤫</div>
-          <h3>Keep It Secret</h3>
-          <p>Never share your password — not even with friends! Your teacher or school IT team will <em>never</em> ask for your password.</p>
-        </div>
-
-        <div class="tip-card">
-          <div class="tip-card-icon">📏</div>
-          <h3>Longer = Stronger</h3>
-          <p>Every extra character makes your password exponentially harder to crack. PassCraft's patterns always produce passwords of <strong>12+ characters</strong>.</p>
-        </div>
-
-        <div class="tip-card">
-          <div class="tip-card-icon">🎨</div>
-          <h3>Make It Memorable</h3>
-          <p>The <strong>Colour + Animal</strong> and <strong>Animal + Food</strong> patterns create a vivid mental image — like a picture in your head — that's easy to recall later!</p>
-        </div>
-
-      </div><!-- /tips-grid -->
-
-      <div class="tip-box">
-        <strong>🌐 Using PassCraft:</strong> This tool runs entirely in your browser —
-        no passwords are stored, sent, or saved anywhere. It is completely private!
-      </div>
-
-    </div><!-- /panel-learn -->
-
-  </div><!-- /card -->
-
-  <!-- ══ FOOTER ══ -->
-  <footer>
-    <p>PassCraft Education &mdash; Helping students stay safe online 🌿</p>
-    <p style="margin-top: 4px;">All generation happens locally in your browser. Nothing is stored or transmitted.</p>
-  </footer>
-
-<!-- ══ PRINT SLIP (hidden, print-only) ══ -->
-<div id="print-slip" style="display:none;">
-  <div style="
-    font-family: 'Nunito', sans-serif;
-    background: #fff;
-    border: 2px solid #2d6a4f;
-    border-radius: 14px;
-    padding: 36px 44px;
-    max-width: 460px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 4px 24px rgba(0,0,0,.1);
-  ">
-    <!-- Logo row -->
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px;">
-      <div style="
-        background:#2d6a4f;color:#fff;border-radius:50%;
-        width:40px;height:40px;display:flex;align-items:center;
-        justify-content:center;font-size:20px;flex-shrink:0;
-      ">🔐</div>
-      <div style="font-size:1.1rem;font-weight:800;color:#2d6a4f;letter-spacing:.3px;">
-        PassCraft <span style="color:#74c69d;">Education</span>
-      </div>
-    </div>
-
-    <hr style="border:none;border-top:1.5px solid #ddd0b8;margin-bottom:22px;" />
-
-    <p style="font-size:.85rem;font-weight:700;color:#6a8a77;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">
-      Password Change Notice
-    </p>
-
-    <p style="font-size:1rem;color:#3d5c4a;line-height:1.65;margin-bottom:20px;">
-      Your password has been changed to:
-    </p>
-
-    <div style="
-      background:#f0faf4;
-      border:2px dashed #74c69d;
-      border-radius:10px;
-      padding:16px 20px;
-      font-family:'Baloo 2',sans-serif;
-      font-size:1.45rem;
-      font-weight:800;
-      color:#2d6a4f;
-      letter-spacing:.5px;
-      word-break:break-all;
-      margin-bottom:22px;
-    " id="print-pw-display"></div>
-
-    <p style="font-size:.82rem;color:#6a8a77;line-height:1.6;margin-bottom:18px;">
-      Keep this slip somewhere safe and secret.<br>
-      <strong style="color:#2d6a4f;">Do not share your password</strong> with anyone,<br>
-      including teachers or friends.
-    </p>
-
-    <hr style="border:none;border-top:1.5px solid #ddd0b8;margin-bottom:14px;" />
-
-    <p style="font-size:.75rem;color:#aaa;margin:0;">
-      Generated by PassCraft Education &mdash; <span id="print-date"></span>
-    </p>
-  </div>
-</div>
-
-</div><!-- /wrapper -->
-
-<!-- Toast notification -->
-<div class="toast" id="toast">Copied to clipboard! ✓</div>
-
-<!-- Main script -->
-<script src="script.js"></script>
-
-</body>
-</html>
+  /* Auto-generate a password immediately on page load */
+  generatePassword();
+});
