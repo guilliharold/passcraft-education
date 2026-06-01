@@ -587,6 +587,48 @@ footer {
 
 footer a { color: var(--green-mid); text-decoration: none; font-weight: 700; }
 
+/* ── PRINT BUTTON ── */
+.print-btn {
+  width: 100%;
+  padding: 13px;
+  background: transparent;
+  color: var(--green-dark);
+  border: 2px solid var(--green-pale);
+  border-radius: var(--radius-md);
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  transition: background .2s, border-color .2s, transform .15s;
+  margin-bottom: 14px;
+}
+
+.print-btn:hover {
+  background: #edf7f2;
+  border-color: var(--green-mid);
+  transform: translateY(-1px);
+}
+
+.print-btn:active { transform: translateY(0); }
+
+/* ── PRINT LAYOUT ── */
+@media print {
+  body * { visibility: hidden !important; }
+  #print-slip, #print-slip * { visibility: visible !important; }
+  #print-slip {
+    position: fixed !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #fff !important;
+  }
+}
+
 /* ── HIDDEN PANEL ── */
 .panel { display: none; }
 .panel.active { display: block; }
