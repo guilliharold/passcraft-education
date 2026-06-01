@@ -1,7 +1,5 @@
 # 🔐 PassCraft Education
 
-> A safe, browser-based password and passphrase generator built for students — and the IT teams who support them.
-
 ---
 
 ## Table of Contents
