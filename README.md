@@ -1,5 +1,7 @@
 # 🔐 PassCraft Education
 
+> A safe, browser-based password and passphrase generator built for students — and the IT teams who support them.
+
 ---
 
 ## Table of Contents
@@ -13,8 +15,6 @@
   - [History Tab](#-history-tab)
   - [Learn Tab](#-learn-tab)
   - [Printing a Password Slip](#printing-a-password-slip)
-- [Benefits for IT Support Technicians](#benefits-for-it-support-technicians)
-- [Benefits for Administrators](#benefits-for-administrators)
 - [Privacy & Security](#privacy--security)
 - [Deployment](#deployment)
 - [File Structure](#file-structure)
@@ -125,38 +125,6 @@ The **Print Password Slip** button appears below the Generate button on both the
 4. Print and hand the slip directly to the student.
 
 > This workflow replaces handwritten notes or unencrypted emails when communicating a new password to a student.
-
----
-
-## Benefits for IT Support Technicians
-
-**Faster password resets** — Generate a strong, policy-compliant password in seconds during a helpdesk visit or classroom support call. No need to think one up on the spot or reuse weak defaults.
-
-**Printable hand-off slip** — The print slip gives you a clean, professional way to communicate a new password to a student without writing it on a sticky note or sending it in plain text over email or a messaging platform.
-
-**Consistent password quality** — Every generated password follows the same Word + Word + Number + Symbol formula, guaranteeing a minimum length of 12+ characters with uppercase, lowercase, numeric, and special character coverage — meeting most school system password policies out of the box.
-
-**No account or login required** — PassCraft runs as a plain HTML file. There's nothing to install, no credentials to manage, and no vendor relationship to maintain. Open it and it works.
-
-**Works on restricted networks** — Because PassCraft runs entirely client-side, it functions on air-gapped or tightly filtered school networks where access to external tools is blocked.
-
-**Session history for batch resets** — When resetting passwords for a whole class or year group, the History tab keeps the last 12 generated values in view so you can refer back without re-generating.
-
----
-
-## Benefits for Administrators
-
-**Privacy-safe by design** — No passwords, usernames, or personal data ever leave the browser. There is no server, no API, no analytics, and no third-party dependencies at runtime. This makes PassCraft straightforward to approve under school privacy policies and relevant data protection legislation (e.g. the Australian Privacy Act, GDPR).
-
-**Zero infrastructure cost** — PassCraft is three static files (`index.html`, `style.css`, `script.js`). It can be hosted on an existing intranet, a shared network drive, a staff portal, or simply opened directly from a USB drive. There are no hosting fees, no SLAs, and no vendor lock-in.
-
-**Supports digital literacy outcomes** — The built-in Learn tab aligns with digital citizenship and online safety curriculum goals. Deploying PassCraft gives teachers a ready-made, interactive resource for password safety education without requiring additional software.
-
-**Auditable and open** — The entire codebase is plain HTML, CSS, and JavaScript with no minification or obfuscation. IT staff and administrators can read, verify, and modify every line. There are no black boxes.
-
-**Customisable for school branding** — The word banks, patterns, colour scheme, and print slip text can all be edited directly in the source files to match school branding or local password policy requirements.
-
-**Reduces support ticket volume** — When students understand how to create strong, memorable passwords themselves (guided by the four patterns), they are less likely to forget them — reducing the frequency of password reset requests to the helpdesk.
 
 ---
 
