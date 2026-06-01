@@ -34,7 +34,6 @@ The tool is designed with two audiences in mind: **students** who need an easy, 
 | Role | How PassCraft Helps |
 |---|---|
 | **IT Support Technician** | Quickly generate and print password slips during account resets or new enrolments |
-| **School Administrator** | Deploy a compliant, privacy-safe tool without the overhead of third-party services |
 | **Teacher** | Use the Learn tab as a classroom resource for digital literacy lessons |
 | **Student** | Create strong passwords independently using guided, memorable patterns |
 
