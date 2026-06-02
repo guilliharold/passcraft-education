@@ -383,18 +383,5 @@
 <!-- Main script -->
 <script src="script.js"></script>
 
-<script>
-  const canvas = document.createElement('canvas');
-  canvas.width = 32;
-  canvas.height = 32;
-  const ctx = canvas.getContext('2d');
-  ctx.font = '28px serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('🔐', 16, 16);
-  const link = document.querySelector("link[rel='icon'][type='image/x-icon']");
-  if (link) link.href = canvas.toDataURL('image/png');
-</script>
-
 </body>
 </html>
