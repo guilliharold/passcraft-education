@@ -2,6 +2,8 @@
 
 ---
 
+## v26.6.2 — 2 June 2026
+
 ## 🖨️ Print Password Slip
 - ✅ Added a **Print Password Slip** button to the Password and Passphrase tabs
 - ✅ Prints a formatted slip with the generated password, a reminder not to share it, and today's date
