@@ -18,4 +18,3 @@
 
 ## 🌐 Favicons
 - ✅ Added full favicon set to `index.html` pointing to files in `assets/`
-- 🐛 Fixed favicon path from `/assets/favicon.ico` to `assets/favicon.ico` (relative path)
