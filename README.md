@@ -1,156 +1,94 @@
 # 🔐 PassCraft Education
 
+**A safe, student-friendly password and passphrase generator built for schools.**
+
+PassCraft Education helps students at secondary colleges and other educational institutions create strong, memorable passwords for their school accounts — entirely within the browser, with nothing stored or transmitted.
+
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 - [Overview](#overview)
-- [Who Is This For?](#who-is-this-for)
 - [Features](#features)
-- [How to Use PassCraft](#how-to-use-passcraft)
-  - [Password Tab](#-password-tab)
-  - [Passphrase Tab](#-passphrase-tab)
-  - [History Tab](#-history-tab)
-  - [Learn Tab](#-learn-tab)
-  - [Printing a Password Slip](#printing-a-password-slip)
+- [How to Use](#how-to-use)
+- [Benefits for Schools](#benefits-for-schools)
 - [Privacy & Security](#privacy--security)
-- [Deployment](#deployment)
 - [File Structure](#file-structure)
+- [Deployment](#deployment)
+- [Changelog](#changelog)
 
 ---
 
 ## Overview
 
-PassCraft Education is a lightweight, self-contained web tool that helps students create strong, memorable passwords and passphrases for their school accounts. It runs entirely in the browser — no server, no database, no internet connection required after the initial page load.
+Weak and reused passwords are one of the most common security risks in school environments. Students often default to easily guessed credentials like their name, birthday, or `password123` — leaving their accounts vulnerable.
 
-The tool is designed with two audiences in mind: **students** who need an easy, guided experience, and **IT staff** who need a reliable, privacy-safe workflow for managing password changes across a school.
+PassCraft Education addresses this by making strong password creation simple, visual, and engaging. It guides students through generating a password or passphrase using memorable word combinations, then reinforces good habits through the built-in Tips tab.
 
----
-
-## Who Is This For?
-
-| Role | How PassCraft Helps |
-|---|---|
-| **IT Support** | Quickly generate and print password slips during account resets or new enrolments |
-| **Teacher** | Use the Learn tab as a classroom resource for digital literacy lessons |
-| **Student** | Create strong passwords independently using guided, memorable patterns |
+The tool is designed to be used directly in the classroom during account setup, password reset sessions, or as part of a digital literacy lesson.
 
 ---
 
 ## Features
 
-- **Four password patterns** — Word+Word, Adjective+Noun, Animal+Food, Colour+Animal
-- **Passphrase generator** — configurable word count, separator style, and optional number/symbol
-- **Strength meter** — live visual feedback on password strength
-- **Generation history** — last 12 generated passwords kept in session, with one-click copy
-- **Print password slip** — prints a formatted "Your password has been changed to..." notice
-- **Safety education** — built-in Learn tab with tips, bad password examples, and good examples
-- **Fully offline-capable** — no data is sent anywhere; works on isolated school networks
-- **Cryptographically secure** — uses the browser's `crypto.getRandomValues()` API, not `Math.random()`
+- 🔑 **Password Generator** — two distinct patterns (Adjective + Noun, Colour + Animal), each producing a Word + Word + Number + Symbol combination that is both strong and easy to remember
+- 💬 **Passphrase Generator** — chains multiple random words with a choice of separator styles, with optional number and symbol suffixes
+- 📊 **Strength Meter** — live visual feedback on password strength after every generation
+- 📋 **History Tab** — keeps the last 12 generated passwords and passphrases within the session for easy reference
+- 🖨️ **Print Password Slip** — prints a formatted slip with the password, a privacy reminder, and today's date — ready to hand to a student
+- 📚 **Tips Tab** — age-appropriate password safety advice covering common mistakes, reuse risks, and what makes a password strong
+- 🔒 **Cryptographically secure** — uses the Web Crypto API (`crypto.getRandomValues`) for all random generation
 
 ---
 
-## How to Use PassCraft
+## How to Use
 
-PassCraft is a single HTML page. Open `index.html` in any modern browser to get started.
+### For Students
 
-### 🔑 Password Tab
+1. Open PassCraft Education in any modern browser
+2. On the **Password** tab, select a pattern card — a password is generated immediately
+3. Click **Generate Password** to shuffle a new one at any time
+4. Use the **Copy** button to copy it to your clipboard, then paste it into the password field of your school account
+5. Switch to the **Passphrase** tab if you prefer a longer, word-based credential
+6. Visit the **Tips** tab to learn what makes a password strong and how to keep it safe
 
-1. Select one of the four **password pattern cards**:
-   - **Word + Word** — e.g. `BraveMountain47!`
-   - **Adjective + Noun** — e.g. `CleverRocket83@`
-   - **Animal + Food** — e.g. `KoalaPizza29$`
-   - **Colour + Animal** — e.g. `BlueDingo47!`
-2. Click **Generate Password** — a new password is built from large word banks using cryptographic randomness.
-3. The **formula hint** beneath the output shows the building blocks used (e.g. Colour + Animal + Number + Symbol).
-4. The **strength meter** rates the result from Very Weak to Very Strong.
-5. Click the 📋 **copy button** to copy to clipboard.
+### For Staff
 
-> A password is auto-generated on page load using the first pattern, so there's always something ready to go.
-
----
-
-### 💬 Passphrase Tab
-
-1. Use the **Number of Words** slider to choose between 3–6 words.
-2. Select a **Separator Style**:
-   - `CapitalWords` — e.g. `CoralKoalaStorm83@`
-   - `word-dash` — e.g. `coral-koala-storm83@`
-   - `word.dot` — e.g. `coral.koala.storm83@`
-3. Tick **Append number** and/or **Append symbol** as needed.
-4. Click **Generate Passphrase**.
-5. Copy using the 📋 button.
+1. Open PassCraft Education on a classroom device or shared screen
+2. Walk students through selecting a pattern and generating a password during account setup or a password reset session
+3. Use the **Print Password Slip** button to print a physical copy for each student to take home — the slip includes a reminder not to share their password
+4. Use the **Tips** tab as a discussion prompt during digital literacy lessons
 
 ---
 
-### 📋 History Tab
+## Benefits for Schools
 
-- Displays the last **12 generated** passwords and passphrases from the current session.
-- Each entry shows the pattern label and the generated value, with a **Copy** button.
-- Click **Clear History** to wipe the session list.
+### For Students
+- Removes the guesswork from creating a strong password — the tool does the hard part
+- Produces passwords that follow a visual pattern (e.g. `BlueDingo47!`) that are genuinely easier to remember than random strings
+- Builds awareness of what makes a password strong through the strength meter and Tips tab
+- Safe to use on any school device — nothing leaves the browser
 
-> History is session-only — it is cleared when the browser tab is closed or the page is refreshed. Nothing is persisted to storage.
+### For IT Staff
+- Reduces the volume of weak or reused passwords that need to be reset
+- The Print Password Slip feature streamlines bulk password resets — no more writing passwords on sticky notes
+- No installation, no accounts, no backend — deploy once to GitHub Pages and share the link
+- Works on any device with a modern browser, including Chromebooks, iPads, and shared lab computers
 
----
-
-### 📚 Learn Tab
-
-A self-contained digital literacy resource covering:
-
-- **Never Use These** — a list of commonly guessed passwords to avoid
-- **Great Examples** — one good example from each of the four patterns
-- **Don't Reuse Passwords** — why unique passwords matter
-- **Keep It Secret** — reminding students that staff will never ask for their password
-- **Longer = Stronger** — explaining why PassCraft always generates 12+ character passwords
-- **Make It Memorable** — the cognitive benefit of visual/colour-based patterns
-
-This tab can be used as a discussion prompt during classroom ICT sessions or new student onboarding.
-
----
-
-### Printing a Password Slip
-
-The **Print Password Slip** button appears below the Generate button on both the Password and Passphrase tabs.
-
-1. Generate a password or passphrase.
-2. Click **🖨️ Print Password Slip**.
-3. The browser print dialog opens with a formatted slip containing:
-   - PassCraft Education branding
-   - *"Your password has been changed to: [password]"*
-   - A reminder not to share the password with anyone
-   - Today's date
-4. Print and hand the slip directly to the student.
-
-> This workflow replaces handwritten notes or unencrypted emails when communicating a new password to a student.
+### For Teachers
+- Ready-made resource for digital literacy and cybersecurity lessons
+- The Tips tab covers curriculum-aligned concepts: password length, reuse risks, and social engineering (never share your password)
+- Engaging enough to hold student attention without being a distraction
 
 ---
 
 ## Privacy & Security
 
-| Property | Detail |
-|---|---|
-| **Data storage** | None — no localStorage, no cookies, no server |
-| **Network requests** | Google Fonts on load only (can be self-hosted to remove this) |
-| **Randomness** | `crypto.getRandomValues()` — cryptographically secure |
-| **Session history** | In-memory only; cleared on page close or refresh |
-| **Print slip** | Generated and rendered entirely in the browser |
-
-PassCraft is safe to use in environments governed by student data privacy policies. It does not collect, transmit, or persist any information about the passwords generated or the people using the tool.
-
----
-
-## Deployment
-
-**Option 1 — Open directly**
-Download the three files and open `index.html` in any modern browser. No web server needed.
-
-**Option 2 — Host on an intranet**
-Copy the three files to any static web server or intranet file share and navigate to `index.html`.
-
-**Option 3 — Staff portal embed**
-Host the files and link to `index.html` from your IT helpdesk portal or staff intranet page.
-
-> Google Fonts (`Nunito` and `Baloo 2`) are loaded from `fonts.googleapis.com`. To make PassCraft fully offline, download both font families and update the `<link>` tags in `index.html` to point to local copies.
+- **Nothing is stored.** No passwords, passphrases, or session data are saved to a database, server, or local storage
+- **Nothing is transmitted.** All generation happens locally in the browser — the tool works with no internet connection once loaded
+- **Cryptographically secure randomness.** The Web Crypto API (`crypto.getRandomValues`) is used for all random number generation — not `Math.random()`
+- **No accounts required.** Students and staff can use the tool without signing in or providing any personal information
+- **History is session-only.** The History tab clears automatically when the browser tab is closed
 
 ---
 
@@ -158,12 +96,47 @@ Host the files and link to `index.html` from your IT helpdesk portal or staff in
 
 ```
 passcraft-education/
-├── index.html   — Application markup and panel structure
-├── style.css    — Design tokens, layout, components, print styles
-└── script.js    — Word banks, generators, history, clipboard, print logic
+├── index.html              # Main application — markup and structure
+├── style.css               # All styles and design tokens
+├── script.js               # Password logic, word banks, UI behaviour
+├── manifest.json           # PWA manifest for installability
+├── README.md               # This file
+├── CHANGELOG.md            # Version history
+└── assets/
+    ├── favicon.ico
+    ├── favicon-16x16.png
+    ├── favicon-32x32.png
+    ├── apple-touch-icon.png
+    ├── android-chrome-192x192.png
+    └── android-chrome-512x512.png
 ```
 
-All logic is contained within these three files. There are no build tools, no package managers, and no dependencies to install.
+---
+
+## Deployment
+
+PassCraft Education is a static site — no build step or server required.
+
+### GitHub Pages (recommended)
+
+1. Push the repository to GitHub
+2. Go to **Settings → Pages**
+3. Set the source to the `main` branch, root folder
+4. GitHub will publish the site at `https://<your-username>.github.io/<repo-name>/`
+
+### Local Use
+
+Open `index.html` directly in any modern browser. No web server needed.
+
+### Intranet / School Network
+
+Copy the project files to any web server or intranet host and serve `index.html` as the entry point. No server-side configuration is required.
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for the full version history.
 
 ---
 
