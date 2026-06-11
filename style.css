@@ -72,14 +72,14 @@ body::after {
 /* ── HEADER ── */
 header {
   text-align: center;
-  padding: 48px 0 36px;
+  padding: 48px 0 20px;
 }
 
 .logo-img {
   width: 240px;
   height: 240px;
   object-fit: contain;
-  margin-bottom: 4px;
+  margin-bottom: 0;
   animation: slideDown .6s cubic-bezier(.34,1.56,.64,1) both;
 }
 
@@ -98,7 +98,8 @@ header h1 em {
 }
 
 header p {
-  margin-top: 10px;
+  margin-top: 16px;
+  margin-bottom: 8px;
   font-size: 1.05rem;
   color: var(--text-mid);
   max-width: 520px;
