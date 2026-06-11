@@ -79,7 +79,7 @@ header {
   width: 200px;
   height: 200px;
   object-fit: contain;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
   animation: slideDown .6s cubic-bezier(.34,1.56,.64,1) both;
 }
 
