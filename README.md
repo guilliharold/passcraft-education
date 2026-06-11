@@ -14,7 +14,6 @@ PassCraft Education helps students at secondary colleges and other educational i
 - [Benefits for Schools](#benefits-for-schools)
 - [Privacy & Security](#privacy--security)
 - [File Structure](#file-structure)
-- [Deployment](#deployment)
 - [Changelog](#changelog)
 
 ---
@@ -112,27 +111,6 @@ passcraft-education/
             ├── android-chrome-192x192.png
             └── android-chrome-512x512.png
 ```
-
----
-
-## Deployment
-
-PassCraft Education is a static site — no build step or server required.
-
-### GitHub Pages (recommended)
-
-1. Push the repository to GitHub
-2. Go to **Settings → Pages**
-3. Set the source to the `main` branch, root folder
-4. GitHub will publish the site at `https://<your-username>.github.io/<repo-name>/`
-
-### Local Use
-
-Open `index.html` directly in any modern browser. No web server needed.
-
-### Intranet / School Network
-
-Copy the project files to any web server or intranet host and serve `index.html` as the entry point. No server-side configuration is required.
 
 ---
 
