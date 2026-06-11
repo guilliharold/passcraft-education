@@ -103,12 +103,14 @@ passcraft-education/
 ├── README.md               # This file
 ├── CHANGELOG.md            # Version history
 └── assets/
-    ├── favicon.ico
-    ├── favicon-16x16.png
-    ├── favicon-32x32.png
-    ├── apple-touch-icon.png
-    ├── android-chrome-192x192.png
-    └── android-chrome-512x512.png
+    └── images/
+        └── favicon/
+            ├── favicon.ico
+            ├── favicon-16x16.png
+            ├── favicon-32x32.png
+            ├── apple-touch-icon.png
+            ├── android-chrome-192x192.png
+            └── android-chrome-512x512.png
 ```
 
 ---
