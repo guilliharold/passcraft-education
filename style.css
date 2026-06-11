@@ -76,8 +76,8 @@ header {
 }
 
 .logo-img {
-  width: 200px;
-  height: 200px;
+  width: 240px;
+  height: 240px;
   object-fit: contain;
   margin-bottom: 4px;
   animation: slideDown .6s cubic-bezier(.34,1.56,.64,1) both;
