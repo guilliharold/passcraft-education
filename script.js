@@ -49,22 +49,10 @@ const COLOURS = [
 ───────────────────────────────────────────── */
 const PATTERNS = [
   {
-    id:    'word-word',
-    label: '🔤 Word + Word',
-    desc:  'e.g. BraveMountain47!',
-    banks: ['ADJECTIVES', 'NOUNS']
-  },
-  {
     id:    'adj-noun',
     label: '✏️ Adjective + Noun',
     desc:  'e.g. CleverRocket83@',
     banks: ['ADJECTIVES', 'NOUNS']
-  },
-  {
-    id:    'animal-food',
-    label: '🐨 Animal + Food',
-    desc:  'e.g. KoalaPizza29$',
-    banks: ['ANIMALS', 'FOODS']
   },
   {
     id:    'colour-animal',
@@ -90,7 +78,7 @@ const BANK_LABELS = {
    PASSPHRASE — uses all word types combined
 ───────────────────────────────────────────── */
 const ALL_WORDS = [
-  ...ADJECTIVES, ...NOUNS, ...ANIMALS, ...FOODS, ...COLOURS
+  ...ADJECTIVES, ...NOUNS, ...ANIMALS, ...COLOURS
 ];
 
 /* ─────────────────────────────────────────────
@@ -413,7 +401,7 @@ function wireCheckboxes() {
   });
 }
 
-/** Highlight the selected pattern card */
+/** Highlight the selected pattern card and immediately generate a password */
 function wirePatternCards() {
   document.querySelectorAll('input[name=pw-pattern]').forEach(radio => {
     radio.addEventListener('change', () => {
@@ -422,6 +410,7 @@ function wirePatternCards() {
       });
       const card = radio.closest('.pattern-card');
       if (card) card.classList.add('selected');
+      generatePassword();
     });
   });
 }
