@@ -72,15 +72,27 @@ body::after {
 /* ── HEADER ── */
 header {
   text-align: center;
-  padding: 48px 0 20px;
+  padding: 32px 0 16px;
 }
 
 .logo-img {
-  width: 240px;
-  height: 240px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
   margin-bottom: 0;
+  display: block;
+  margin-inline: auto;
   animation: slideDown .6s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+header p {
+  margin-top: 6px;
+  margin-bottom: 0;
+  font-size: 1.05rem;
+  color: var(--text-mid);
+  max-width: 520px;
+  margin-inline: auto;
+  animation: slideDown .7s .2s cubic-bezier(.34,1.56,.64,1) both;
 }
 
 header h1 {
@@ -97,15 +109,7 @@ header h1 em {
   color: var(--amber-dark);
 }
 
-header p {
-  margin-top: 16px;
-  margin-bottom: 8px;
-  font-size: 1.05rem;
-  color: var(--text-mid);
-  max-width: 520px;
-  margin-inline: auto;
-  animation: slideDown .7s .2s cubic-bezier(.34,1.56,.64,1) both;
-}
+
 
 /* ── TABS ── */
 .tab-bar {
