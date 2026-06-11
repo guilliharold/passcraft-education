@@ -15,6 +15,14 @@
 - ✅ Removed `FOODS` from the passphrase word pool since the Animal + Food pattern is no longer present
 - ✅ Pattern grid now stays **two columns at all screen sizes** — no longer collapses to one column on mobile
 
+### 🖼️ Logo & Header
+- ✅ Replaced the makeshift logo badge (🔐 PassCraft Education pill) with the official **PassCraft Education logo** from `assets/images/passcraft-edu-logo.png`
+- ✅ Removed the `h1` heading — the logo now serves as the primary visual identity in the header
+- ✅ Updated favicon paths across `index.html` to reflect new location at `assets/images/favicon/`
+- ✅ Updated file structure in `README.md` to match new favicon directory
+- ✅ Tuned header and subtitle spacing for a clean, compact layout — removed excess gap between logo and subtitle
+- ✅ Removed now-unused `.logo-badge`, `.logo-icon`, and `.logo-text` CSS rules from `style.css`
+
 ---
 
 ## v26.6.2 — 2 June 2026
