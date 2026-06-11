@@ -435,6 +435,7 @@ window.addEventListener('load', () => {
     if (firstCard) firstCard.classList.add('selected');
   }
 
-  /* Auto-generate a password immediately on page load */
+  /* Auto-generate a password and passphrase immediately on page load */
   generatePassword();
+  generatePassphrase();
 });
