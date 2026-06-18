@@ -285,9 +285,23 @@ function renderHistory() {
         <span class="history-label">${escapeHtml(item.patternLabel || (item.type === 'passphrase' ? '💬 Passphrase' : '🔑 Password'))}</span>
         <span class="history-pw">${escapeHtml(item.text)}</span>
       </div>
-      <button class="history-copy" onclick="copyRaw('${escapeAttr(item.text)}')">Copy</button>
+      <button class="history-copy" data-action="copy" data-text="${escapeAttr(item.text)}">Copy</button>
+      <button class="history-print" data-action="print" data-text="${escapeAttr(item.text)}" title="Print password slip">🖨️</button>
     </div>
   `).join('');
+}
+
+/** Handles Copy and Print clicks for any history item (delegated) */
+function handleHistoryListClick(e) {
+  const btn = e.target.closest('button[data-action]');
+  if (!btn) return;
+
+  const text = btn.dataset.text;
+  if (btn.dataset.action === 'copy') {
+    copyRaw(text);
+  } else if (btn.dataset.action === 'print') {
+    printRaw(text);
+  }
 }
 
 function clearHistory() {
@@ -361,6 +375,13 @@ function printPassword(outputId) {
     return;
   }
 
+  printRaw(pw);
+}
+
+/** Print a slip for a raw password/passphrase string (used by History tab) */
+function printRaw(pw) {
+  if (!pw) return;
+
   /* Populate the print slip */
   document.getElementById('print-pw-display').textContent = pw;
   document.getElementById('print-date').textContent =
@@ -422,6 +443,10 @@ window.addEventListener('load', () => {
   wirePassphraseSeparators();
   wireCheckboxes();
   wirePatternCards();
+
+  /* Delegate Copy/Print clicks for History items */
+  const historyList = document.getElementById('history-list');
+  if (historyList) historyList.addEventListener('click', handleHistoryListClick);
 
   /* Set initial passphrase separator visual */
   const sepCapBox = document.getElementById('sepbox-cap');
