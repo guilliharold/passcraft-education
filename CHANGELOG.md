@@ -2,6 +2,16 @@
 
 ---
 
+## v26.6.18 — 18 June 2026
+
+### 🖨️ History Tab Printing
+- ✅ Added a **Print** button to each item in the History tab, allowing any past password or passphrase to be printed as a slip directly from the list
+- ✅ Refactored `printPassword()` in `script.js`, splitting out a reusable `printRaw()` function that powers printing from both the Password/Passphrase tabs and the History tab
+- ✅ Switched History tab rendering from inline `onclick` handlers to `data-action` attributes with event delegation, improving safety and making it easy to add further per-item actions in future
+- ✅ Added `.history-print` button styling in `style.css`, matching the existing `.history-copy` button look
+
+---
+
 ## v26.6.11 — 11 June 2026
 
 ### 🐛 Bug Fixes
