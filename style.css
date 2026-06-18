@@ -76,8 +76,8 @@ header {
 }
 
 .logo-img {
-  width: 240px;
-  height: 240px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
   margin-bottom: 0;
   display: block;
@@ -428,7 +428,8 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   word-break: break-all;
 }
 
-.history-copy {
+.history-copy,
+.history-print {
   background: transparent;
   border: 1.5px solid var(--cream-border);
   border-radius: var(--radius-sm);
@@ -441,10 +442,17 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   flex-shrink: 0;
 }
 
-.history-copy:hover {
+.history-copy:hover,
+.history-print:hover {
   background: var(--green-dark);
   color: #fff;
   border-color: var(--green-dark);
+}
+
+.history-print {
+  font-size: .92rem;
+  line-height: 1;
+  padding: 4px 9px;
 }
 
 .empty-history {
