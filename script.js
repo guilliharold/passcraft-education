@@ -7,38 +7,55 @@
    WORD BANKS
 ───────────────────────────────────────────── */
 const ADJECTIVES = [
+  // Original 32
   'Brave','Clever','Swift','Mighty','Calm','Bright','Gentle','Bold',
   'Fierce','Lucky','Jolly','Proud','Witty','Eager','Loyal','Vivid',
   'Sunny','Crisp','Daring','Noble','Honest','Quirky','Zesty','Lively',
-  'Fluffy','Grumpy','Bouncy','Sparky','Fuzzy','Snappy','Peppy','Wobbly'
+  'Fluffy','Grumpy','Bouncy','Sparky','Fuzzy','Snappy','Peppy','Wobbly',
+  // Added 32
+  'Radiant','Nimble','Sleek','Grand','Merry','Sharp','Tender','Wild',
+  'Plucky','Serene','Gusty','Valiant','Silky','Zippy','Mellow','Stormy',
+  'Brisk','Crafty','Dazzling','Fearless','Graceful','Hardy','Inventive','Jazzy',
+  'Keen','Lofty','Mystic','Nifty','Outgoing','Prickly','Regal','Spirited'
 ];
 
 const NOUNS = [
+  // Original 32
   'Mountain','Rocket','Castle','Comet','Storm','Forest','River','Galaxy',
   'Lantern','Shield','Compass','Anchor','Sunrise','Crystal','Flame','Tower',
   'Bridge','Cloud','Stone','Ember','Breeze','Canyon','Meadow','Crater',
-  'Candle','Barrel','Feather','Pebble','Wagon','Kettle','Blanket','Hammer'
+  'Candle','Barrel','Feather','Pebble','Wagon','Kettle','Blanket','Hammer',
+  // Added 32
+  'Glacier','Horizon','Lighthouse','Nebula','Orchard','Pinnacle','Quartz','Ravine',
+  'Sapphire','Tide','Volcano','Waterfall','Zenith','Acorn','Beacon','Cavern',
+  'Dewdrop','Eclipse','Fossil','Geyser','Haven','Iceberg','Jungle','Keystone',
+  'Lagoon','Mosaic','Nomad','Oasis','Prism','Ripple','Summit','Tundra'
 ];
 
 const ANIMALS = [
+  // Original 29
   'Dingo','Kangaroo','Koala','Wombat','Platypus','Echidna','Quokka',
   'Wallaby','Possum','Bilby','Kookaburra','Magpie','Numbat','Gecko',
   'Eagle','Parrot','Dolphin','Penguin','Falcon','Otter','Panda','Jaguar',
-  'Meerkat','Lemur','Narwhal','Axolotl','Capybara','Flamingo','Hamster'
-];
-
-const FOODS = [
-  'Pizza','Mango','Waffle','Taco','Sushi','Pasta','Donut','Melon',
-  'Brownie','Pretzel','Noodle','Burrito','Muffin','Dumpling','Falafel',
-  'Churro','Scone','Ramen','Biscuit','Pancake','Gelato','Kebab','Bagel',
-  'Nacho','Pudding','Biscotti','Crumpet','Nougat','Cannoli','Fritter'
+  'Meerkat','Lemur','Narwhal','Axolotl','Capybara','Flamingo','Hamster',
+  // Added 29
+  'Cheetah','Gorilla','Octopus','Peacock','Raccoon','Seahorse','Toucan',
+  'Vulture','Walrus','Wolverine','Lynx','Mantis','Newt','Ocelot','Pelican',
+  'Quetzal','Reindeer','Stingray','Tapir','Uakari','Viper','Weasel','Xerus',
+  'Yak','Zebrafish','Basilisk','Condor','Dragonfly'
 ];
 
 const COLOURS = [
+  // Original 30
   'Blue','Red','Green','Purple','Orange','Yellow','Silver','Golden',
   'Pink','Violet','Coral','Amber','Indigo','Teal','Crimson','Jade',
   'Scarlet','Azure','Ivory','Olive','Maroon','Cobalt','Magenta','Bronze',
-  'Russet','Cerulean','Vermillion','Chartreuse','Ochre','Lavender'
+  'Russet','Cerulean','Vermillion','Chartreuse','Ochre','Lavender',
+  // Added 30
+  'Turquoise','Periwinkle','Burgundy','Tangerine','Fuchsia','Slate','Sage',
+  'Copper','Sapphire','Emerald','Ruby','Onyx','Pearl','Champagne','Topaz',
+  'Mahogany','Saffron','Lilac','Mint','Denim','Claret','Apricot','Flaxen',
+  'Obsidian','Pewter','Sienna','Taupe','Umber','Viridian','Wisteria'
 ];
 
 /* ─────────────────────────────────────────────
@@ -63,14 +80,13 @@ const PATTERNS = [
 ];
 
 /* Maps bank name strings → actual arrays */
-const BANK_MAP = { ADJECTIVES, NOUNS, ANIMALS, FOODS, COLOURS };
+const BANK_MAP = { ADJECTIVES, NOUNS, ANIMALS, COLOURS };
 
 /* Human-readable labels for the formula hint */
 const BANK_LABELS = {
   ADJECTIVES: 'Adjective',
   NOUNS:      'Noun',
   ANIMALS:    'Animal',
-  FOODS:      'Food',
   COLOURS:    'Colour'
 };
 
