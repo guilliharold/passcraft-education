@@ -16,7 +16,7 @@
 - ✅ Left the password strength meter's red-to-green colours unchanged, since they carry meaning
 
 ### 🌐 Favicons
-- ✅ Updated the favicons in `assets/images/favicon/` to match the new Navy & Slate colour palette
+- ✅ Updated the favicons in `assets/images/favicons/` to match the new Navy & Slate colour palette
 
 ---
 
