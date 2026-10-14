@@ -15,6 +15,9 @@
 - ✅ Kept the existing CSS variable names (e.g. `--green-dark`) so `script.js` and the rest of the code are unaffected
 - ✅ Left the password strength meter's red-to-green colours unchanged, since they carry meaning
 
+### 🌐 Favicons
+- ✅ Updated the favicons in `assets/images/favicon/` to match the new Navy & Slate colour palette
+
 ---
 
 ## v26.6.18 — 18 June 2026
