@@ -2,6 +2,21 @@
 
 ---
 
+## v26.10.14 — 14 October 2026
+
+### 🎨 New Colour Scheme — Navy & Slate
+- ✅ Replaced the green and cream palette with a new **Navy & Slate** palette for a more professional, school- and IT-appropriate look
+- ✅ Updated all design tokens in `:root` in `style.css`: primary `#1F3A5F`, secondary `#2F5D8C`, light accent `#6B9AC4`, pale tint `#CFE0F1`, and amber accent `#E8A33D`
+- ✅ Swapped the cream backgrounds, borders and text colours for cool, soft neutrals (`#F6F8FB` background, `#CFD7E3` borders, `#16202C` text) to reduce glare and improve ergonomics
+- ✅ Darkened the lightest text colour to `#5C6B80` so small text stays readable on the pale background
+- ✅ Updated hard-coded colours in `style.css`: card and button shadows, background glows, and the pale tints on tip boxes, pattern cards and the "good" tags
+- ✅ Updated the colours on the hidden print slip in `index.html` so printed slips match the new palette
+- ✅ Added a `theme-color` meta tag (`#1F3A5F`) so mobile browsers tint their toolbar to match
+- ✅ Kept the existing CSS variable names (e.g. `--green-dark`) so `script.js` and the rest of the code are unaffected
+- ✅ Left the password strength meter's red-to-green colours unchanged, since they carry meaning
+
+---
+
 ## v26.6.18 — 18 June 2026
 
 ### 🖨️ History Tab Printing
