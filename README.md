@@ -1,109 +1,153 @@
-# 🔐 PassCraft Education
+<div align="center">
 
-**A safe, student-friendly password and passphrase generator built for schools.**
+<img src="assets/images/passcraft-edu-logo.png" alt="PassCraft Education logo" width="220" />
 
-PassCraft Education helps students at secondary colleges and other educational institutions create strong, memorable passwords for their school accounts — entirely within the browser, with nothing stored or transmitted.
+# PassCraft Education
 
----
+**Strong, memorable passwords and passphrases — built for students and schools.**
 
-## 📋 Table of Contents
+![HTML5](https://img.shields.io/badge/HTML5-1F3A5F?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-2F5D8C?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-6B9AC4?style=flat-square&logo=javascript&logoColor=white)
+![No backend](https://img.shields.io/badge/backend-none-E8A33D?style=flat-square)
+![Privacy](https://img.shields.io/badge/data%20stored-none-1F3A5F?style=flat-square)
 
-- [Overview](#overview)
-- [Features](#features)
-- [How to Use](#how-to-use)
-- [Benefits for Schools](#benefits-for-schools)
-- [Privacy & Security](#privacy--security)
-- [File Structure](#file-structure)
-- [Changelog](#changelog)
+[Overview](#overview) ·
+[Features](#features) ·
+[Getting Started](#getting-started) ·
+[Usage](#usage) ·
+[Privacy & Security](#privacy--security) ·
+[Deployment](#deployment) ·
+[Project Structure](#project-structure) ·
+[Changelog](#changelog)
+
+</div>
 
 ---
 
 ## Overview
 
-Weak and reused passwords are one of the most common security risks in school environments. Students often default to easily guessed credentials like their name, birthday, or `password123` — leaving their accounts vulnerable.
+Weak and reused passwords are among the most common security risks in school environments. Students often fall back on easily guessed credentials such as a name, a birthday or `password123`, which leaves their accounts exposed.
 
-PassCraft Education addresses this by making strong password creation simple, visual, and engaging. It guides students through generating a password or passphrase using memorable word combinations, then reinforces good habits through the built-in Tips tab.
+**PassCraft Education** makes strong password creation simple, visual and engaging. It generates credentials from memorable word combinations, shows how strong each one is, and reinforces good habits through a built-in Learn tab.
 
-The tool is designed to be used directly in the classroom during account setup, password reset sessions, or as part of a digital literacy lesson.
+It is designed for use in the classroom during account setup, password reset sessions, or as part of a digital literacy lesson. It is also useful to anyone who wants a strong but memorable password or phrase.
 
 ---
 
 ## Features
 
-- 🔑 **Password Generator** — two distinct patterns (Adjective + Noun, Colour + Animal), each producing a Word + Word + Number + Symbol combination that is both strong and easy to remember
-- 💬 **Passphrase Generator** — chains multiple random words with a choice of separator styles, with optional number and symbol suffixes
-- 📊 **Strength Meter** — live visual feedback on password strength after every generation
-- 📋 **History Tab** — keeps the last 12 generated passwords and passphrases within the session for easy reference
-- 🖨️ **Print Password Slip** — prints a formatted slip with the password, a privacy reminder, and today's date — ready to hand to a student
-- 📚 **Tips Tab** — age-appropriate password safety advice covering common mistakes, reuse risks, and what makes a password strong
-- 🔒 **Cryptographically secure** — uses the Web Crypto API (`crypto.getRandomValues`) for all random generation
+| Feature | Description |
+| --- | --- |
+| 🔑 **Password Generator** | Two patterns — *Adjective + Noun* and *Colour + Animal* — each producing a `Word + Word + Number + Symbol` password, e.g. `CleverRocket83@` or `BlueDingo47!`. Selecting a pattern generates a password immediately. |
+| 💬 **Passphrase Generator** | Chains 3–6 random words with a choice of separator (`CapitalWords`, `word-dash`, `word.dot`) and optional number and symbol suffixes. |
+| 📊 **Strength Meter** | Live five-level visual feedback after every generation. |
+| 📋 **History** | Keeps the last 12 generated credentials for the current session, with **Copy** and **Print** buttons on every item. |
+| 🖨️ **Print Password Slip** | Prints a formatted slip containing the password, a "do not share" reminder and today's date. Available from the Password, Passphrase and History tabs. |
+| 📚 **Learn Tab** | Age-appropriate password safety advice: commonly guessed passwords, reuse risks, keeping passwords secret, length and memorability. |
+| 🔒 **Secure Randomness** | All random selection uses the Web Crypto API (`crypto.getRandomValues`), never `Math.random()`. |
+| 📱 **Installable** | PWA manifest and a full favicon set for use on phones, tablets and Chromebooks. |
 
 ---
 
-## How to Use
+## Getting Started
 
-### For Students
+PassCraft Education is a static site with **no build step, dependencies or backend**.
 
-1. Open PassCraft Education in any modern browser
-2. On the **Password** tab, select a pattern card — a password is generated immediately
-3. Click **Generate Password** to shuffle a new one at any time
-4. Use the **Copy** button to copy it to your clipboard, then paste it into the password field of your school account
-5. Switch to the **Passphrase** tab if you prefer a longer, word-based credential
-6. Visit the **Tips** tab to learn what makes a password strong and how to keep it safe
+**Run locally**
 
-### For Staff
+```bash
+git clone <your-repository-url>
+cd passcraft-education
 
-1. Open PassCraft Education on a classroom device or shared screen
-2. Walk students through selecting a pattern and generating a password during account setup or a password reset session
-3. Use the **Print Password Slip** button to print a physical copy for each student to take home — the slip includes a reminder not to share their password
-4. Use the **Tips** tab as a discussion prompt during digital literacy lessons
+# Option 1: open index.html directly in a browser
+# Option 2: serve it locally
+python3 -m http.server 8000
+# then visit http://localhost:8000
+```
+
+**Requirements:** any modern browser (Chrome, Edge, Firefox, Safari), including Chromebooks, iPads and shared lab computers.
+
+---
+
+## Usage
+
+### Students
+
+1. Open PassCraft Education in your browser.
+2. On the **Password** tab, choose a pattern. A password is generated straight away.
+3. Select **Generate Password** to shuffle a new one at any time.
+4. Use the **Copy** button, then paste it into your school account's password field.
+5. Prefer something longer? Switch to the **Passphrase** tab.
+6. Visit the **Learn** tab to find out what makes a password strong and how to keep it safe.
+
+### Staff
+
+1. Open PassCraft Education on a classroom device or shared screen.
+2. Walk students through choosing a pattern and generating a password during account setup or a reset session.
+3. Use **Print Password Slip** to give each student a physical copy. The slip reminds them not to share it.
+4. Use the **Learn** tab as a discussion prompt in digital literacy lessons.
 
 ---
 
 ## Benefits for Schools
 
-### For Students
-- Removes the guesswork from creating a strong password — the tool does the hard part
-- Produces passwords that follow a visual pattern (e.g. `BlueDingo47!`) that are genuinely easier to remember than random strings
-- Builds awareness of what makes a password strong through the strength meter and Tips tab
-- Safe to use on any school device — nothing leaves the browser
+**Students**
+- Removes the guesswork from creating a strong password.
+- Produces vivid, pattern-based passwords (e.g. `BlueDingo47!`) that are easier to remember than random strings.
+- Builds awareness of password strength through the meter and Learn tab.
 
-### For IT Staff
-- Reduces the volume of weak or reused passwords that need to be reset
-- The Print Password Slip feature streamlines bulk password resets — no more writing passwords on sticky notes
-- No installation, no accounts, no backend — deploy once to GitHub Pages and share the link
-- Works on any device with a modern browser, including Chromebooks, iPads, and shared lab computers
+**IT Staff**
+- Reduces the number of weak or reused passwords that need resetting.
+- Print slips streamline bulk password resets and replace sticky notes.
+- Deploy once and share a link; no installation, accounts or backend.
 
-### For Teachers
-- Ready-made resource for digital literacy and cybersecurity lessons
-- The Tips tab covers curriculum-aligned concepts: password length, reuse risks, and social engineering (never share your password)
-- Engaging enough to hold student attention without being a distraction
+**Teachers**
+- A ready-made resource for digital literacy and cybersecurity lessons.
+- Covers password length, reuse risks and never sharing credentials.
 
 ---
 
 ## Privacy & Security
 
-- **Nothing is stored.** No passwords, passphrases, or session data are saved to a database, server, or local storage
-- **Nothing is transmitted.** All generation happens locally in the browser — the tool works with no internet connection once loaded
-- **Cryptographically secure randomness.** The Web Crypto API (`crypto.getRandomValues`) is used for all random number generation — not `Math.random()`
-- **No accounts required.** Students and staff can use the tool without signing in or providing any personal information
-- **History is session-only.** The History tab clears automatically when the browser tab is closed
+- **Nothing is stored.** No passwords, passphrases or session data are saved to a server, database or local storage.
+- **Nothing is transmitted.** Generation happens entirely in the browser.
+- **Secure randomness.** The Web Crypto API is used for all random selection.
+- **No accounts.** No sign-in and no personal information required.
+- **Session-only history.** The History tab clears when the browser tab is closed.
+- **External resources.** The only network request is for Google Fonts (Nunito and Baloo 2). If fonts cannot load, the browser falls back to a default font and everything still works.
 
 ---
 
-## File Structure
+## Deployment
+
+The site can be hosted on any static host.
+
+**GitHub Pages**
+
+1. Push the project to a GitHub repository.
+2. Go to **Settings → Pages**.
+3. Under **Build and deployment**, choose **Deploy from a branch**, then select your main branch and the `/ (root)` folder.
+4. Save, and share the published link.
+
+Netlify, Cloudflare Pages and school web servers also work; just upload the files as they are.
+
+---
+
+## Project Structure
 
 ```
 passcraft-education/
-├── index.html              # Main application — markup and structure
-├── style.css               # All styles and design tokens
-├── script.js               # Password logic, word banks, UI behaviour
-├── manifest.json           # PWA manifest for installability
-├── README.md               # This file
-├── CHANGELOG.md            # Version history
+├── index.html                 # Application markup and structure
+├── style.css                  # Styles and design tokens (Navy & Slate palette)
+├── script.js                  # Word banks, generators, UI behaviour
+├── manifest.json              # PWA manifest
+├── README.md                  # Project documentation
+├── CHANGELOG.md               # Version history
 └── assets/
     └── images/
-        └── favicon/
+        ├── passcraft-edu-logo.png
+        └── favicons/
             ├── favicon.ico
             ├── favicon-16x16.png
             ├── favicon-32x32.png
@@ -114,10 +158,28 @@ passcraft-education/
 
 ---
 
+## Design
+
+| Token | Colour | Hex |
+| --- | --- | --- |
+| Primary | Navy | `#1F3A5F` |
+| Secondary | Blue | `#2F5D8C` |
+| Light accent | Sky | `#6B9AC4` |
+| Pale tint | Mist | `#CFE0F1` |
+| Highlight | Amber | `#E8A33D` |
+
+Typography uses **Nunito** for body text and **Baloo 2** for headings and generated output.
+
+---
+
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for the full version history.
 
 ---
 
-*PassCraft Education — Helping students stay safe online 🌿*
+<div align="center">
+
+**PassCraft Education** — Helping students stay safe online 🌿
+
+</div>
