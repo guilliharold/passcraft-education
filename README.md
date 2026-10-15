@@ -18,11 +18,12 @@
 
 ## Overview
 
-Weak and reused passwords are among the most common security risks in school environments. Students often fall back on easily guessed credentials such as a name, a birthday or `password123`, which leaves their accounts exposed.
+Weak and commonly reused passwords represent some of the predominant security vulnerabilities within educational settings. Students frequently rely on simplistic authentication details such as personal names, dates of birth, or default passwords like “password123”, thereby increasing the likelihood of unauthorised access to their accounts.
 
-**PassCraft Education** makes strong password creation simple, visual and engaging. It generates credentials from memorable word combinations, shows how strong each one is, and reinforces good habits through a built-in Learn tab.
+PassCraft Education facilitates the development of secure and memorable password creation in a clear, visual, and engaging manner. It generates credentials based on easily recallable word combinations, demonstrates the strength of each credential, and promotes best practices through an integrated Learning tab.
 
-It is designed for use in the classroom during account setup, password reset sessions, or as part of a digital literacy lesson. It is also useful to anyone who wants a strong but memorable password or phrase.
+
+It is intended for use within educational settings during account configuration, password recovery procedures, or as part of a digital literacy curriculum. Additionally, it is suitable for individuals seeking a secure yet memorable password or passphrase.
 
 ---
 
