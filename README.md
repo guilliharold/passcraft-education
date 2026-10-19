@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/images/passcraft-logo.png" alt="PassCraft Education" width="220" />
+<img src="images/passcraft-logo.png" alt="PassCraft Education" width="220" />
 
 # PassCraft Education
 
