@@ -41,8 +41,8 @@ const ANIMALS = [
   // Added 29
   'Cheetah','Gorilla','Octopus','Peacock','Raccoon','Seahorse','Toucan',
   'Vulture','Walrus','Wolverine','Lynx','Mantis','Newt','Ocelot','Pelican',
-  'Quetzal','Reindeer','Stingray','Tapir','Uakari','Viper','Weasel','Xerus',
-  'Yak','Zebrafish','Basilisk','Condor','Dragonfly'
+  'Alpaca','Reindeer','Stingray','Tapir','Marmot','Viper','Weasel','Ferret',
+  'Yak','Salmon','Iguana','Condor','Dragonfly'
 ];
 
 const COLOURS = [
@@ -53,7 +53,7 @@ const COLOURS = [
   'Russet','Cerulean','Vermillion','Chartreuse','Ochre','Lavender',
   // Added 30
   'Turquoise','Periwinkle','Burgundy','Tangerine','Fuchsia','Slate','Sage',
-  'Copper','Sapphire','Emerald','Ruby','Onyx','Pearl','Champagne','Topaz',
+  'Copper','Rose','Emerald','Ruby','Onyx','Pearl','Champagne','Topaz',
   'Mahogany','Saffron','Lilac','Mint','Denim','Claret','Apricot','Flaxen',
   'Obsidian','Pewter','Sienna','Taupe','Umber','Viridian','Wisteria'
 ];
@@ -67,15 +67,15 @@ const COLOURS = [
 const PATTERNS = [
   {
     id:    'adj-noun',
-    label: '✏️ Adjective + Noun',
-    desc:  'e.g. CleverRocket83@',
-    banks: ['ADJECTIVES', 'NOUNS']
+    label: '✏️ Adjective + Colour + Noun',
+    desc:  'e.g. CleverTealRocket83@',
+    banks: ['ADJECTIVES', 'COLOURS', 'NOUNS']
   },
   {
     id:    'colour-animal',
-    label: '🎨 Colour + Animal',
-    desc:  'e.g. BlueDingo47!',
-    banks: ['COLOURS', 'ANIMALS']
+    label: '🎨 Adjective + Colour + Animal',
+    desc:  'e.g. BraveBlueDingo47!',
+    banks: ['ADJECTIVES', 'COLOURS', 'ANIMALS']
   }
 ];
 
@@ -93,9 +93,10 @@ const BANK_LABELS = {
 /* ─────────────────────────────────────────────
    PASSPHRASE — uses all word types combined
 ───────────────────────────────────────────── */
-const ALL_WORDS = [
-  ...ADJECTIVES, ...NOUNS, ...ANIMALS, ...COLOURS
-];
+/* De-duplicated so no word is over-weighted */
+const ALL_WORDS = [...new Set(
+  [...ADJECTIVES, ...NOUNS, ...ANIMALS, ...COLOURS].map(w => w.toLowerCase())
+)];
 
 /* ─────────────────────────────────────────────
    CHARACTER SETS
@@ -109,13 +110,19 @@ const CHARS = {
 /* ─────────────────────────────────────────────
    STRENGTH METADATA
 ───────────────────────────────────────────── */
-const STRENGTH_COLOURS = ['', '#c0392b', '#e67e22', '#f1c40f', '#27ae60', '#1e8449'];
+const STRENGTH_COLOURS = ['', '#c0392b', '#e67e22', '#f1c40f', '#27ae60', '#1e8449']; /* bars */
+const STRENGTH_TEXT    = ['', '#a93226', '#b9570a', '#7a5f00', '#1e7a46', '#14532d']; /* label (AA contrast) */
 const STRENGTH_LABELS  = ['', 'Very Weak', 'Weak', 'Fair', 'Strong', 'Very Strong'];
+const STRENGTH_NOTES   = ['', 'Easy to guess', 'Add more words', 'Protects against online guessing',
+                          'Strong for most school accounts', 'Excellent for important accounts'];
 
 /* ─────────────────────────────────────────────
    SESSION HISTORY
 ───────────────────────────────────────────── */
 let history = [];
+
+/* The password / passphrase currently on screen (kept in memory only) */
+const current = { pw: '', pp: '' };
 
 /* ─────────────────────────────────────────────
    CRYPTO UTILITIES
@@ -125,6 +132,9 @@ let history = [];
 function randInt(max) {
   const arr = new Uint32Array(1);
   crypto.getRandomValues(arr);
+  /* Rejection sampling avoids modulo bias */
+  const limit = Math.floor(0x100000000 / max) * max;
+  while (arr[0] >= limit) crypto.getRandomValues(arr);
   return arr[0] % max;
 }
 
@@ -143,9 +153,28 @@ function randTwoDigit() {
 ───────────────────────────────────────────── */
 function switchTab(name, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+    b.tabIndex = -1;
+  });
   document.getElementById('panel-' + name).classList.add('active');
   btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+  btn.tabIndex = 0;
+}
+
+/** Arrow-key / Home / End navigation between tabs */
+function wireTabs() {
+  const tabs = [...document.querySelectorAll('.tab-btn')];
+  tabs.forEach((t, i) => t.addEventListener('keydown', e => {
+    const target = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (target === undefined) return;
+    e.preventDefault();
+    const next = tabs[(target + tabs.length) % tabs.length];
+    next.focus();
+    next.click();
+  }));
 }
 
 /* ─────────────────────────────────────────────
@@ -153,7 +182,7 @@ function switchTab(name, btn) {
    Formula: Word + Word + Number + Symbol
    e.g.  BlueDingo47!  |  KoalaPizza83@
 ───────────────────────────────────────────── */
-function generatePassword() {
+function generatePassword(silent) {
   /* Identify the selected pattern */
   const selectedRadio = document.querySelector('input[name=pw-pattern]:checked');
   if (!selectedRadio) {
@@ -173,9 +202,11 @@ function generatePassword() {
   const pw     = words.join('') + number + symbol;
 
   displayOutput('pw-output', pw);
-  updateStrength('bar', 'strength-label', pw);
+  updateStrength('bar', 'strength-label', patternBits(pattern.banks));
   updateFormulaHint(pattern);
-  addHistory(pw, 'password', pattern.label);
+  current.pw = pw;
+  resetPractice('pw');
+  if (!silent) addHistory(pw, 'password', pattern.label);
 }
 
 /** Capitalise first letter, lowercase the rest */
@@ -204,7 +235,7 @@ function updateFormulaHint(pattern) {
    Formula: Word(s) + optional number + optional symbol
    Uses the same 4 word banks, mixed together
 ───────────────────────────────────────────── */
-function generatePassphrase() {
+function generatePassphrase(silent) {
   const wordCount = parseInt(document.getElementById('pp-words').value);
   const addNum    = document.getElementById('pp-num').checked;
   const addSym    = document.getElementById('pp-sym').checked;
@@ -226,39 +257,76 @@ function generatePassphrase() {
   if (addSym) phrase += pick(CHARS.sym);
 
   displayOutput('pp-output', phrase);
-  updateStrength('pp-bar', 'pp-strength-label', phrase);
-  addHistory(phrase, 'passphrase', '💬 Passphrase');
+  const bits = wordCount * Math.log2(ALL_WORDS.length)
+             + (addNum ? Math.log2(90) : 0)
+             + (addSym ? Math.log2(CHARS.sym.length) : 0);
+  updateStrength('pp-bar', 'pp-strength-label', bits);
+  current.pp = phrase;
+  resetPractice('pp');
+  if (!silent) addHistory(phrase, 'passphrase', '💬 Passphrase');
 }
 
 /* ─────────────────────────────────────────────
    STRENGTH METER
 ───────────────────────────────────────────── */
-function calcStrength(pw) {
-  let score = 0;
-  if (pw.length >= 8)           score++;
-  if (pw.length >= 12)          score++;
-  if (pw.length >= 16)          score++;
-  if (/[A-Z]/.test(pw))         score++;
-  if (/[a-z]/.test(pw))         score++;
-  if (/[0-9]/.test(pw))         score++;
-  if (/[^A-Za-z0-9]/.test(pw))  score++;
-  return Math.min(5, Math.round((score / 7) * 5));
+/** Bits of randomness for a word pattern: words + 2-digit number + symbol */
+function patternBits(banks) {
+  return banks.reduce((t, b) => t + Math.log2(BANK_MAP[b].length), 0)
+       + Math.log2(90) + Math.log2(CHARS.sym.length);
 }
 
-function updateStrength(barPrefix, labelId, pw) {
-  const score = calcStrength(pw);
+/* Thresholds follow common guess-count tiers (about 10^6, 10^8, 10^10 guesses) */
+function bitsToScore(bits) {
+  return bits < 20 ? 1 : bits < 27 ? 2 : bits < 33 ? 3 : bits < 45 ? 4 : 5;
+}
+
+function updateStrength(barPrefix, labelId, bits) {
+  const score = bitsToScore(bits);
 
   for (let i = 1; i <= 5; i++) {
     const bar = document.getElementById(barPrefix + i);
     if (!bar) continue;
-    bar.style.background = i <= score ? STRENGTH_COLOURS[score] : 'var(--cream-dark)';
+    bar.style.background = i <= score ? STRENGTH_COLOURS[score] : 'var(--surface-dark)';
     bar.style.transition  = `background .4s ease ${(i - 1) * 0.07}s`;
   }
 
   const lbl = document.getElementById(labelId);
-  if (!lbl) return;
-  lbl.textContent = STRENGTH_LABELS[score];
-  lbl.style.color = STRENGTH_COLOURS[score];
+  if (lbl) {
+    lbl.textContent = STRENGTH_LABELS[score];
+    lbl.style.color = STRENGTH_TEXT[score];
+  }
+  const note = document.getElementById(labelId.replace('label', 'note'));
+  if (note) note.textContent = `About ${Math.round(bits)} bits of randomness · ${STRENGTH_NOTES[score]}`;
+}
+
+/* ─────────────────────────────────────────────
+   PRACTISE TYPING + HIDE/SHOW
+───────────────────────────────────────────── */
+function checkPractice(which) {
+  const input = document.getElementById(which + '-practice');
+  const msg   = document.getElementById(which + '-practice-msg');
+  if (!input || !msg) return;
+  const v = input.value, target = current[which];
+  let text = '', cls = 'practice-msg';
+  if (v) {
+    if (v === target)            { text = '✓ Match! Now try again without looking.'; cls += ' ok'; }
+    else if (target.startsWith(v)) text = 'Looking good… keep going';
+    else                         { text = 'Not a match yet – check capital letters and symbols.'; cls += ' bad'; }
+  }
+  msg.textContent = text;
+  msg.className = cls;
+}
+
+function resetPractice(which) {
+  const input = document.getElementById(which + '-practice');
+  if (input) { input.value = ''; checkPractice(which); }
+}
+
+function toggleMask(id, btn) {
+  const hidden = document.getElementById(id).classList.toggle('masked');
+  btn.setAttribute('aria-pressed', String(hidden));
+  btn.setAttribute('aria-label', hidden ? 'Show password' : 'Hide password');
+  btn.textContent = hidden ? '🙈' : '👁️';
 }
 
 /* ─────────────────────────────────────────────
@@ -329,19 +397,38 @@ function clearHistory() {
 /* ─────────────────────────────────────────────
    CLIPBOARD
 ───────────────────────────────────────────── */
-function copyText(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const text = el.textContent.trim();
-  if (!text || text.startsWith('Select a pattern') || text.startsWith('Click Generate')) {
-    showToast('Generate something first!');
-    return;
+function legacyCopy(text) {
+  const t = document.createElement('textarea');
+  t.value = text;
+  t.setAttribute('readonly', '');
+  t.style.cssText = 'position:fixed;opacity:0';
+  document.body.appendChild(t);
+  t.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) { /* ignore */ }
+  t.remove();
+  return ok;
+}
+
+function copyToClipboard(text, okMsg) {
+  const done = () => showToast(okMsg);
+  const fail = () => showToast("Couldn't copy – select the text and copy it manually.");
+  const fallback = () => (legacyCopy(text) ? done() : fail());
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done, fallback);
+  } else {
+    fallback();
   }
-  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard! ✓'));
+}
+
+function copyText(id) {
+  const text = id === 'pw-output' ? current.pw : current.pp;
+  if (!text) { showToast('Generate something first!'); return; }
+  copyToClipboard(text, 'Copied to clipboard! ✓');
 }
 
 function copyRaw(text) {
-  navigator.clipboard.writeText(text).then(() => showToast('Copied! ✓'));
+  copyToClipboard(text, 'Copied! ✓');
 }
 
 /* ─────────────────────────────────────────────
@@ -378,19 +465,8 @@ function escapeAttr(s) {
    PRINT PASSWORD SLIP
 ───────────────────────────────────────────── */
 function printPassword(outputId) {
-  const el = document.getElementById(outputId);
-  if (!el) return;
-
-  const pw = el.textContent.trim();
-  const placeholder = outputId === 'pw-output'
-    ? 'Select a pattern above, then click Generate ✨'
-    : 'Click Generate to start ✨';
-
-  if (!pw || pw === placeholder) {
-    showToast('Generate a password first!');
-    return;
-  }
-
+  const pw = outputId === 'pw-output' ? current.pw : current.pp;
+  if (!pw) { showToast('Generate a password first!'); return; }
   printRaw(pw);
 }
 
@@ -408,6 +484,7 @@ function printRaw(pw) {
   slip.style.display = 'flex';
   window.print();
   slip.style.display = 'none';
+  document.getElementById('print-pw-display').textContent = ''; /* don't leave it in the page */
 }
 
 /* ─────────────────────────────────────────────
@@ -456,6 +533,11 @@ function wirePatternCards() {
    INITIALISE ON LOAD
 ───────────────────────────────────────────── */
 window.addEventListener('load', () => {
+  wireTabs();
+  ['pw', 'pp'].forEach(k => {
+    const el = document.getElementById(k + '-practice');
+    if (el) el.addEventListener('input', () => checkPractice(k));
+  });
   wirePassphraseSeparators();
   wireCheckboxes();
   wirePatternCards();
@@ -476,7 +558,7 @@ window.addEventListener('load', () => {
     if (firstCard) firstCard.classList.add('selected');
   }
 
-  /* Auto-generate a password and passphrase immediately on page load */
-  generatePassword();
-  generatePassphrase();
+  /* Auto-generate on load (silent: not added to History until the student asks) */
+  generatePassword(true);
+  generatePassphrase(true);
 });
