@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1f3a5f" />
+  <meta name="description" content="Optional check: find out whether a password has appeared in a known data breach. Only part of a scrambled version is sent, and only if you choose to check." />
+  <title>Breach Check – PassCraft Education</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="assets/images/favicons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicons/android-chrome-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicons/android-chrome-512x512.png" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- ══ HEADER ══ -->
+  <header>
+    <a href="index.html" class="logo-link" aria-label="PassCraft Education home">
+      <img src="assets/images/logos/passcraft.png" alt="PassCraft Education" class="logo-img" width="200" height="200" />
+    </a>
+    <h1 class="visually-hidden">Breach check</h1>
+  </header>
+
+  <!-- ══ SITE NAV (fixed position: nothing above it changes height) ══ -->
+  <nav class="site-nav" aria-label="Site">
+    <a href="index.html" class="site-nav-link">🔐 Generator</a>
+    <a href="bulk.html" class="site-nav-link">📋 Bulk</a>
+    <a href="strength-indicator.html" class="site-nav-link">📊 Strength Indicator</a>
+    <a href="breach-check.html" class="site-nav-link active" aria-current="page">🛡️ Breach Check</a>
+    <a href="learn.html" class="site-nav-link">📚 Learn</a>
+  </nav>
+
+  <p class="page-intro">Find out whether a password has shown up in a known data breach.</p>
+
+  <!-- ══ MAIN CARD ══ -->
+  <div class="card" style="margin-top: 28px;">
+
+    <div class="section-label">Check a Password</div>
+
+    <p class="breach-lead">Optional. Nothing is sent until you tick the box and click Check.</p>
+
+    <details class="how-it-works">
+      <summary>How does this work?</summary>
+      <div class="how-it-works-body">
+        <ol>
+          <li>Your browser scrambles the password into a <em>hash</em>.</li>
+          <li>It sends only the first 5 characters of that hash to
+            <a href="https://haveibeenpwned.com/Passwords" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a>,
+            a free breach-checking service.</li>
+          <li>The service replies with a list of possible matches.</li>
+          <li>Your browser checks that list on your own device.</li>
+        </ol>
+        <p>Your password is never sent, and PassCraft never sees it or the result.</p>
+        <p>Unlike the Strength Indicator, this tool is meant for a real password, because checking an
+        example tells you nothing about the one you actually use. More in the
+        <a href="privacy.html">Privacy Policy</a>.</p>
+      </div>
+    </details>
+
+    <!-- Input -->
+    <div class="output-wrap">
+      <input
+        type="password"
+        id="b-input"
+        class="indicator-input"
+        placeholder="Type a password to check…"
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        maxlength="128"
+        aria-label="Password to check for breaches"
+      />
+      <button class="copy-btn" id="b-toggle" type="button"
+              title="Show password" aria-label="Show password" aria-pressed="false">👁️</button>
+    </div>
+
+    <!-- Consent: must be ticked before every check -->
+    <div class="consent-row">
+      <label class="check-item">
+        <input type="checkbox" id="b-consent" />
+        <span class="check-box" id="b-consent-box"></span>
+        <span>I agree to send part of a scrambled version of this password to Have I Been Pwned.</span>
+      </label>
+      <div class="field-help">Under 18? Check with a parent, guardian or teacher first.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="generate-btn" id="b-check" type="button" disabled>🛡️ Check for breaches</button>
+      <button class="print-btn" id="b-clear" type="button">🧹 Clear</button>
+    </div>
+
+    <!-- Result (announced to screen readers when it changes) -->
+    <div id="b-live" aria-live="polite">
+      <div id="b-results" class="hidden">
+        <ul class="feedback-list" id="b-feedback"></ul>
+
+        <!-- Only shown when the password was found in a breach -->
+        <div class="cta-card hidden" id="b-cta">
+          <p><strong>Time for a new one.</strong> Create a fresh, memorable password and use it only for the account you&rsquo;re replacing.</p>
+          <a href="index.html" class="generate-btn link-btn">🎲 Generate a new password</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Remember:</strong> &ldquo;Not found&rdquo; doesn&rsquo;t mean a password is safe.
+      If it is found, change it everywhere you&rsquo;ve used it and use a different one for each account. <span class="tip-more" data-tip-more>Make use of multi-factor authentication for extra protection. Only type a password into a site or tool you trust, and check the address first.</span>
+    </div>
+
+  </div><!-- /card -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <p class="footer-tagline">PassCraft Education &mdash; Helping schools stay safe online 🌿</p>
+    <p class="footer-note">Nothing is sent unless you tick the box and click Check. Even then, your password itself is never sent.</p>
+    <p class="footer-links"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Use</a> &middot; <a href="disclaimer.html">Disclaimer</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="https://github.com/guilliharold/passcraft-education/" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="license.html">MIT License</a></p>
+    <p class="footer-legal">
+      &copy; <span id="copyright-year">2026</span>
+      Harold Guilline
+    </p>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script src="site.js"></script>
+<script src="breach-check.js"></script>
+
+</body>
+</html>

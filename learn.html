@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1f3a5f" />
+  <meta name="description" content="Simple, practical password tips for students and teaching staff." />
+  <title>Learn – PassCraft Education</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="assets/images/favicons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicons/android-chrome-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicons/android-chrome-512x512.png" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- ══ HEADER ══ -->
+  <header>
+    <a href="index.html" class="logo-link" aria-label="PassCraft Education home">
+      <img src="assets/images/logos/passcraft.png" alt="PassCraft Education" class="logo-img" width="200" height="200" />
+    </a>
+    <h1 class="visually-hidden">Learn: password safety tips</h1>
+  </header>
+
+  <!-- ══ SITE NAV (fixed position: nothing above it changes height) ══ -->
+  <nav class="site-nav" aria-label="Site">
+    <a href="index.html" class="site-nav-link">🔐 Generator</a>
+    <a href="bulk.html" class="site-nav-link">📋 Bulk</a>
+    <a href="strength-indicator.html" class="site-nav-link">📊 Strength Indicator</a>
+    <a href="breach-check.html" class="site-nav-link">🛡️ Breach Check</a>
+    <a href="learn.html" class="site-nav-link active" aria-current="page">📚 Learn</a>
+  </nav>
+
+  <p class="page-intro">For staff and students: six essential practices to enhance account security, followed by a demonstration and a brief assessment.</p>
+
+  <!-- ══ MAIN CARD ══ -->
+  <div class="card" style="margin-top: 28px;">
+
+    <div class="section-label">Password Safety Tips</div>
+
+    <div class="tips-list">
+      <details class="tip-item" name="tips">
+        <summary><span class="tip-item-icon" aria-hidden="true">📏</span>Make it long</summary>
+        <div class="tip-item-body">
+          <p>Aim for <strong>twelve (12) or more characters</strong>. A few random, unrelated words get you there and are easy to remember. Avoid using song lyrics or phrases about you.</p>
+        </div>
+      </details>
+      <details class="tip-item" name="tips">
+        <summary><span class="tip-item-icon" aria-hidden="true">🚫</span>Never use these</summary>
+        <div class="tip-item-body">
+          <p>These are some of the most guessed passwords. Avoid them, and close variations too.</p>
+          <div class="bad-list">
+            <span class="bad-tag">password</span>
+            <span class="bad-tag">qwerty</span>
+            <span class="bad-tag">111111</span>
+            <span class="bad-tag">iloveyou</span>
+            <span class="bad-tag">admin</span>
+            <span class="bad-tag">Aa123456</span>
+            <span class="bad-tag">abc123</span>
+            <span class="bad-tag">qwerty123</span>
+          </div>
+        </div>
+      </details>
+      <details class="tip-item" name="tips">
+        <summary><span class="tip-item-icon" aria-hidden="true">🔁</span>One password per account</summary>
+        <div class="tip-item-body">
+          <p>Websites do get hacked. If you reuse a password, attackers can try it on your other accounts. A different password for each one keeps a leak contained.</p>
+        </div>
+      </details>
+      <details class="tip-item" name="tips">
+        <summary><span class="tip-item-icon" aria-hidden="true">🤫</span>Keep it secret</summary>
+        <div class="tip-item-body">
+          <p>Never share it, not even with friends. Teachers and school IT will never ask for it. If a message pushes you to log in urgently, go to the site yourself instead of clicking its link. Only type a password into the real site or app it belongs to, or a tool you understand.</p>
+        </div>
+      </details>
+      <details class="tip-item" name="tips">
+        <summary><span class="tip-item-icon" aria-hidden="true">🗄️</span>Use a password manager</summary>
+        <div class="tip-item-body">
+          <p>An app that creates and remembers a different password for every account, locked behind one strong master password. PassCraft Education suggests <a href="https://bitwarden.com/" target="_blank" rel="noopener noreferrer">Bitwarden</a>. Please check with a parent or trusted adult before choosing a password manager.</p>
+        </div>
+      </details>
+      <details class="tip-item" name="tips">
+        <summary><span class="tip-item-icon" aria-hidden="true">📲</span>Turn on MFA</summary>
+        <div class="tip-item-body">
+          <p>Multi-factor authentication asks for a second proof, like a code from an app, so a stolen password isn't enough. Turn it on wherever it's offered, starting with your email.</p>
+        </div>
+      </details>
+    </div><!-- /tips-list -->
+
+    <!-- ══ REUSE DEMO (built by learn.js; kept in memory only) ══ -->
+    <div class="section-label" style="margin-top: 28px;">See Why Reuse Is Risky</div>
+    <div class="domino" id="domino">
+      <noscript><p class="quiz-intro">The demo needs JavaScript. Turn it on to try it.</p></noscript>
+    </div>
+
+    <!-- ══ QUIZ (built by learn.js; kept in memory only) ══ -->
+    <div class="section-label" style="margin-top: 28px;">Test Yourself</div>
+    <div class="quiz" id="quiz">
+      <noscript><p class="quiz-intro">The quiz needs JavaScript. Turn it on to play.</p></noscript>
+    </div>
+
+    <div class="tip-box">
+      <strong>🌐 Using PassCraft:</strong> your generated passwords stay in your browser and are never
+      stored or sent. Some features use outside services, see the
+      <a href="privacy.html">Privacy Policy</a> for details.
+    </div>
+
+  </div><!-- /card -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <p class="footer-tagline">PassCraft Education &mdash; Helping schools stay safe online 🌿</p>
+    <p class="footer-note">PassCraft never stores or sends the passwords you generate or test.</p>
+    <p class="footer-links"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Use</a> &middot; <a href="disclaimer.html">Disclaimer</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="https://github.com/guilliharold/passcraft-education/" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="license.html">MIT License</a></p>
+    <p class="footer-legal">
+      &copy; <span id="copyright-year">2026</span>
+      Harold Guilline
+    </p>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script src="site.js"></script>
+<script src="shared.js"></script>
+<script src="learn.js"></script>
+
+</body>
+</html>

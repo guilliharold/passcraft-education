@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1f3a5f" />
+  <meta name="description" content="For ICT staff and technicians: fill the Password column of an account list with generated passwords. Everything stays in your browser." />
+  <title>Bulk Passwords – PassCraft Education</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="assets/images/favicons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicons/android-chrome-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicons/android-chrome-512x512.png" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- ══ HEADER ══ -->
+  <header>
+    <a href="index.html" class="logo-link" aria-label="PassCraft Education home">
+      <img src="assets/images/logos/passcraft.png" alt="PassCraft Education" class="logo-img" width="200" height="200" />
+    </a>
+    <h1 class="visually-hidden">Bulk passwords</h1>
+  </header>
+
+  <!-- ══ SITE NAV ══ -->
+  <nav class="site-nav" aria-label="Site">
+    <a href="index.html" class="site-nav-link">🔐 Generator</a>
+    <a href="bulk.html" class="site-nav-link active" aria-current="page">📋 Bulk</a>
+    <a href="strength-indicator.html" class="site-nav-link">📊 Strength Indicator</a>
+    <a href="breach-check.html" class="site-nav-link">🛡️ Breach Check</a>
+    <a href="learn.html" class="site-nav-link">📚 Learn</a>
+  </nav>
+
+  <p class="page-intro">Fill the Password column of an account list or spreadsheet in one go.</p>
+
+  <!-- ══ MAIN CARD ══ -->
+  <div class="card" style="margin-top: 28px;" id="bk-root">
+
+    <div class="section-label">Bulk Passwords</div>
+
+    <p class="breach-lead">For ICT staff and technicians: your file is processed locally within this browser and is not uploaded.</p>
+
+    <details class="how-it-works">
+      <summary>How does this work?</summary>
+      <div class="how-it-works-body">
+        <ol>
+          <li>Choose a <strong>.csv</strong> or <strong>.xlsx</strong> file with a column titled <strong>Password</strong>.</li>
+          <li>PassCraft fills that column with a different password for each person.</li>
+          <li>Preview the result, then download it as a new file.</li>
+        </ol>
+        <p>Your file stays on this device. Nothing is uploaded, stored or sent.</p>
+        <p>Other columns are kept as they are. An .xlsx download loses fonts, colours and other
+        formatting, and includes only the sheet you choose.</p>
+      </div>
+    </details>
+
+    <!-- 1 -->
+    <div class="section-label">1. Choose a file</div>
+    <input type="file" id="bk-file" class="bulk-file" accept=".csv,.xlsx" aria-describedby="bk-file-help" />
+    <div class="field-help" id="bk-file-help">Up to 5 MB and 5,000 people. The first rows must include a column titled Password.</div>
+
+    <div id="bk-sheet-row" class="bulk-sheet-row hidden">
+      <label for="bk-sheet">Sheet to use</label>
+      <select id="bk-sheet" class="bulk-select"></select>
+    </div>
+
+    <div aria-live="polite">
+      <ul class="feedback-list bulk-status" id="bk-status"></ul>
+    </div>
+
+    <!-- 2 -->
+    <div id="bk-options" class="hidden">
+      <div class="section-label">2. Choose a style</div>
+      <div class="domino-modes" id="bk-formats" role="group" aria-label="Password style"></div>
+
+      <div class="consent-row">
+        <label class="check-item">
+          <input type="checkbox" id="bk-overwrite" />
+          <span class="check-box" id="bk-overwrite-box"></span>
+          <span>Replace existing passwords (otherwise people who already have one are skipped)</span>
+        </label>
+      </div>
+
+      <button class="generate-btn" id="bk-generate" type="button">🎲 Generate passwords</button>
+    </div>
+
+    <!-- 3 -->
+    <div id="bk-result" class="hidden">
+      <div class="section-label">3. Preview and download</div>
+      <p class="bulk-summary" id="bk-summary" aria-live="polite"></p>
+
+      <div class="bulk-table-wrap" tabindex="0" role="region" aria-label="Preview of the generated rows">
+        <table class="bulk-table" id="bk-table"></table>
+      </div>
+
+      <div class="bulk-pager hidden" id="bk-pager">
+        <button class="bulk-pager-btn" id="bk-prev" type="button">&lsaquo; Previous</button>
+        <span class="bulk-pager-info" id="bk-page-info" aria-live="polite"></span>
+        <button class="bulk-pager-btn" id="bk-next" type="button">Next &rsaquo;</button>
+      </div>
+
+      <div class="consent-row">
+        <label class="check-item">
+          <input type="checkbox" id="bk-reveal" />
+          <span class="check-box" id="bk-reveal-box"></span>
+          <span>Show passwords in the preview (not a good idea on a projector)</span>
+        </label>
+      </div>
+
+      <button class="generate-btn" id="bk-dl-main" type="button">⬇️ Download</button>
+      <p class="bulk-alt"><button class="bulk-alt-link" id="bk-dl-alt" type="button"></button></p>
+
+      <div class="tip-box bulk-warn">
+        <strong>⚠️ The downloaded file contains every password in plain text.</strong>
+        Share it only with the people who need it, never by email to students, and delete it
+        (and your Downloads copy) once it&rsquo;s no longer needed. Ask people to change their
+        password the first time they sign in.
+      </div>
+    </div>
+
+    <button class="print-btn" id="bk-clear" type="button" style="margin-top: 18px;">🧹 Clear</button>
+
+    <div class="tip-box">
+      <strong>💡 Good to know:</strong> the word-based styles are easy to remember, so they suit first-time
+      passwords, but they are weaker than long random ones. <span class="tip-more" data-tip-more>Random characters are stronger but harder to type (see the <a href="disclaimer.html">Disclaimer</a>). Wherever you can, require a password change at first sign-in and turn on multi-factor authentication. Only handle student details in ways your school&rsquo;s policies allow.</span>
+    </div>
+
+  </div><!-- /card -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <p class="footer-tagline">PassCraft Education &mdash; Helping schools stay safe online 🌿</p>
+    <p class="footer-note">Your file is read in your browser. It is never uploaded, stored or sent anywhere.</p>
+    <p class="footer-links"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Use</a> &middot; <a href="disclaimer.html">Disclaimer</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="https://github.com/guilliharold/passcraft-education/" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="license.html">MIT License</a></p>
+    <p class="footer-legal">
+      &copy; <span id="copyright-year">2026</span>
+      Harold Guilline
+    </p>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script src="site.js"></script>
+<script src="shared.js"></script>
+<script src="script.js"></script>
+<script src="assets/vendor/read-excel-file/read-excel-file.min.js"></script>
+<script src="assets/vendor/write-excel-file/write-excel-file.min.js"></script>
+<script src="bulk.js"></script>
+
+</body>
+</html>

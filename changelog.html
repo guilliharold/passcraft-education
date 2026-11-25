@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1f3a5f" />
+  <meta name="description" content="See what has changed in PassCraft Education, from the first version to now." />
+  <title>Changelog – PassCraft Education</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="assets/images/favicons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicons/android-chrome-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicons/android-chrome-512x512.png" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- ══ HEADER ══ -->
+  <header>
+    <a href="index.html" class="logo-link" aria-label="PassCraft Education home">
+      <img src="assets/images/logos/passcraft.png" alt="PassCraft Education" class="logo-img" width="200" height="200" />
+    </a>
+    <h1 class="visually-hidden">Changelog</h1>
+  </header>
+
+  <!-- ══ SITE NAV (fixed position: nothing above it changes height) ══ -->
+  <nav class="site-nav" aria-label="Site">
+    <a href="index.html" class="site-nav-link">🔐 Generator</a>
+    <a href="bulk.html" class="site-nav-link">📋 Bulk</a>
+    <a href="strength-indicator.html" class="site-nav-link">📊 Strength Indicator</a>
+    <a href="breach-check.html" class="site-nav-link">🛡️ Breach Check</a>
+    <a href="learn.html" class="site-nav-link">📚 Learn</a>
+  </nav>
+
+  <p class="page-intro">Recent Updates to PassCraft Education, listed in reverse chronological order.</p>
+
+  <!-- ══ MAIN CARD ══ -->
+  <div class="card legal" style="margin-top: 28px;">
+    <div class="section-label">Changelog</div>
+    <p class="legal-updated">Last updated: 25 November 2026</p>
+
+    <div class="changelog-entry">
+      <h2>Welcome to PassCraft Education! <span class="changelog-status">Live</span></h2>
+      <p class="changelog-meta"><span class="changelog-version">v26.12.0</span> Released 25 November 2026</p>
+
+      <h3>Pages</h3>
+      <ul>
+        <li><strong>Generator:</strong> create memorable passwords from Adjective + Noun or Colour + Animal patterns, each ending with a number and a symbol, or passphrases of 3 to 6 words with a choice of separator and an optional number and symbol. Includes a copy button, a session-only history and printable password slips.</li>
+        <li><strong>Bulk Passwords:</strong> for ICT staff and technicians. Choose a .csv or .xlsx file with a column titled Password and fill it with a different generated password for each person. Pick a pattern style, a 4-word passphrase or 12 random characters, preview the result and download a new file named like &ldquo;Year 9 accounts with Passwords 2026-11-25&rdquo;. The file is read in your browser and never uploaded.</li>
+        <li><strong>Strength Indicator:</strong> test an example password in your browser and get a checklist, an estimated time to crack and plain-English feedback. It looks for common passwords, dictionary words, keyboard patterns, sequences, repeats, years and look-alike character swaps.</li>
+        <li><strong>Breach Check (optional):</strong> find out whether a password has appeared in a known data breach, using Have I Been Pwned. Nothing happens until you tick the consent box and click Check, and you are asked again every time. Only the first 5 characters of a scrambled version are sent, never the password.</li>
+        <li><strong>Learn:</strong> six short, practical password habits: make it long, avoid commonly guessed passwords, one password per account, keep it secret, use a password manager and turn on MFA. Includes a &ldquo;reuse domino&rdquo; demo that shows how one leaked password can open other accounts, and a &ldquo;Which is stronger?&rdquo; quiz that picks five rounds at random from ten pairs of made-up example passwords. Both run in the browser and nothing is stored or sent.</li>
+        <li><strong>MIT License page:</strong> a dedicated page alongside LICENSE.txt, with a plain-English summary and a way back to the main site.</li>
+        <li><strong>Changelog:</strong> this page.</li>
+      </ul>
+
+      <h3>Design and content</h3>
+      <ul>
+        <li>Navy &amp; Slate colour scheme, designed to look professional and be comfortable to read.</li>
+        <li>A site navigation bar linking the Generator, Bulk Passwords, Strength Indicator, Breach Check and Learn pages.</li>
+        <li>Privacy Policy, Terms of Use and Disclaimer written to be clear and concise, with each page keeping its own job.</li>
+        <li>Passwords are picked with an unbiased random method, so every word and character is equally likely.</li>
+        <li>Printed password slips include a blank line for writing the account name by hand, and a reminder to destroy the slip securely.</li>
+        <li>A README that explains the project, its features and its structure.</li>
+        <li>Fonts (Nunito and Baloo 2) are hosted on the site itself, so pages make no request to Google Fonts.</li>
+      </ul>
+
+      <h3>Accessibility and installability</h3>
+      <ul>
+        <li>Keyboard-navigable tabs, visible focus styles, screen-reader announcements for results and support for reduced motion.</li>
+        <li>A web app manifest so the site can be installed like an app.</li>
+        <li>Favicons and app icons.</li>
+      </ul>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Good to know:</strong> new releases will be added here as they are published.
+    </div>
+  </div><!-- /card -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <p class="footer-tagline">PassCraft Education &mdash; Helping schools stay safe online 🌿</p>
+    <p class="footer-links"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Use</a> &middot; <a href="disclaimer.html">Disclaimer</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="https://github.com/guilliharold/passcraft-education/" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="license.html">MIT License</a></p>
+    <p class="footer-legal">
+      &copy; <span id="copyright-year">2026</span>
+      Harold Guilline
+    </p>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script src="site.js"></script>
+
+</body>
+</html>

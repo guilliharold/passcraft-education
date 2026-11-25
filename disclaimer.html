@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1f3a5f" />
+  <meta name="description" content="Important limits of PassCraft Education: educational use only, no guarantees." />
+  <title>Disclaimer – PassCraft Education</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="assets/images/favicons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicons/android-chrome-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicons/android-chrome-512x512.png" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- ══ HEADER ══ -->
+  <header>
+    <a href="index.html" class="logo-link" aria-label="PassCraft Education home">
+      <img src="assets/images/logos/passcraft.png" alt="PassCraft Education" class="logo-img" width="200" height="200" />
+    </a>
+    <h1 class="visually-hidden">Disclaimer</h1>
+  </header>
+
+  <!-- ══ SITE NAV (fixed position: nothing above it changes height) ══ -->
+  <nav class="site-nav" aria-label="Site">
+    <a href="index.html" class="site-nav-link">🔐 Generator</a>
+    <a href="bulk.html" class="site-nav-link">📋 Bulk</a>
+    <a href="strength-indicator.html" class="site-nav-link">📊 Strength Indicator</a>
+    <a href="breach-check.html" class="site-nav-link">🛡️ Breach Check</a>
+    <a href="learn.html" class="site-nav-link">📚 Learn</a>
+  </nav>
+
+  <p class="page-intro">PassCraft is an educational resource. The following outlines its capabilities and limitations.</p>
+
+  <!-- ══ MAIN CARD ══ -->
+  <div class="card legal" style="margin-top: 28px;">
+    <div class="section-label">Disclaimer</div>
+    <p class="legal-updated">Last updated: 25 November 2026</p>
+
+    <h2>Educational use only</h2>
+    <p>PassCraft teaches good password habits. It isn’t a security product or professional cybersecurity, IT or legal advice, and it doesn’t replace your school’s or organisation’s password rules.</p>
+
+    <h2>No guarantee of security</h2>
+    <p>No password is ever guaranteed to be safe. PassCraft’s passwords use word lists and a simple pattern so they’re easy to remember, which makes them weaker than long random ones. For important accounts like email or banking, use a password manager and turn on multi-factor authentication.</p>
+
+    <h2>Strength results are estimates</h2>
+    <p>The strength meter, checklist, feedback and “time to crack” are rough guides based on simplified assumptions. A “Strong” result doesn’t mean a password is safe, and a weak result doesn’t mean it has been exposed.</p>
+
+    <h2>Breach Check results</h2>
+    <p>The Breach Check relies on a service run by someone else, which may be slow, unavailable or change without notice. “Not found” doesn’t mean a password is safe, only that it isn’t in the breached passwords that service holds. “Found” means it has been exposed somewhere and shouldn’t be used. If a check can’t be completed, there is no result.</p>
+
+    <h2>Bulk Passwords</h2>
+    <p>Bulk Passwords uses the same word lists and patterns as the Generator, or random characters, so the same limits apply. The downloaded file holds every password in plain text. How it is shared, stored and deleted, and how student details are handled, is up to you and your school.</p>
+
+    <h2>Your responsibility</h2>
+    <p>Please don’t enter your real passwords into the Strength Indicator. Test an example <em>similar in style</em> instead. The optional <a href="breach-check.html">Breach Check</a> is the one exception, because it only works on a real password. It sends only part of a scrambled version, and only after you agree (see the <a href="privacy.html">Privacy Policy</a>). Keep generated passwords secret, use each on one account only, and destroy printed slips when you no longer need them.</p>
+
+    <h2>Use at your own risk</h2>
+    <p>We try to keep the site accurate and working, but can’t promise it is error-free or always available. To the extent the law allows, we aren’t liable for loss or damage from using or relying on PassCraft. This doesn’t limit your rights under the Australian Consumer Law. See also our <a href="terms.html">Terms of Use</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+
+    <div class="tip-box">
+      <strong>💡 Best practice:</strong> for important accounts like email, use a password manager and
+      turn on multi-factor authentication. See <a href="learn.html">Learn</a> for simple tips.
+    </div>
+  </div><!-- /card -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <p class="footer-tagline">PassCraft Education &mdash; Helping schools stay safe online 🌿</p>
+    <p class="footer-links"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Use</a> &middot; <a href="disclaimer.html">Disclaimer</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="https://github.com/guilliharold/passcraft-education/" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="license.html">MIT License</a></p>
+    <p class="footer-legal">
+      &copy; <span id="copyright-year">2026</span>
+      Harold Guilline
+    </p>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script src="site.js"></script>
+
+</body>
+</html>
